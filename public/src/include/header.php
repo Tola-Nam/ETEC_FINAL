@@ -281,4 +281,4 @@
 
     <script src="../controllers/main.js"></script>
 
-    <?php include('../include/footer.php') ?>
+    <?php include('./footer.php') ?>
