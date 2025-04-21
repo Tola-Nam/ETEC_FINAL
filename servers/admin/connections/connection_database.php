@@ -1,9 +1,7 @@
 <?php
 
-function connectiondatabase(): mysqli
+function connection_database(): mysqli
 {
     return new mysqli("Localhost", "root", "", "system_online_shop");
 }
-
-$conn = connectiondatabase();
 ?>

@@ -1,7 +1,7 @@
 <?php
 include(__DIR__ . '/connectiondatabase.php');
 
-class Adminregister
+class Admin_register
 {
 
     protected $UserName;
@@ -18,7 +18,7 @@ class Adminregister
         $this->Gender = $Gender;
     }
 
-    public function registeraccountadmin()
+    public function register_account_admin()
     {
         try {
             if (empty($this->UserName) || empty($this->Email) || empty($this->Password) || empty($this->ConfirmPassword) || empty($this->Gender)) {
@@ -28,11 +28,11 @@ class Adminregister
             if ($this->Password != $this->ConfirmPassword || strlen($this->Password) < 8) {
                 throw new ('Password does not match it');
             } else {
-                $inserQuery = "INSERT INTO `admin` (`UserName`,`Email`,`Password`,`Gender`)
+                $insert_query = "INSERT INTO `admin` (`UserName`,`Email`,`Password`,`Gender`)
                                     VALUES ('$this->UserName','$this->Email','$this->Password','$this->Gender');";
 
                 try {
-                    $Query = connectiondatabase()->query($inserQuery);
+                    $Query = connectiondatabase()->query($insert_query);
                     if (!$Query) {
                         throw new Exception("Email already used!!! Please try another email");
                     }
@@ -48,17 +48,16 @@ class Adminregister
     }
 
 }
-class adminsinginaccount extends Adminregister
+class admin_signin_account extends Admin_register
 {
     private $UserName_Email;
     public function __construct($UserName, $Email, $Password, $ConfirmPassword, $Gender, $UserName_Email)
     {
         parent::__construct($UserName, $Email, $Password, $ConfirmPassword, $Gender);
-        $this->Password = $Password;
         $this->UserName_Email = $UserName_Email;
     }
 
-    public function loginadminaccount()
+    public function login_admin_account()
     {
         session_start();
         // if (!empty($_SESSION['id'])) {
@@ -112,13 +111,13 @@ try {
         $UserName_Email = $_POST['UserName_Email'] ?? '';
         if (!empty($_POST)) {
 
-            $adminregister = new adminsinginaccount($UserName, $Email, $Password, $ConfirmPassword, $Gender, $UserName_Email);
+            $admin_register = new adminsinginaccount($UserName, $Email, $Password, $ConfirmPassword, $Gender, $UserName_Email);
         }
         if (isset($_POST['singup'])) {
 
-            $adminregister->registeraccountadmin();
+            $admin_register->registeraccountadmin();
         } else {
-            $adminregister->loginadminaccount();
+            $admin_register->loginadminaccount();
         }
     }
 } catch (Exception $e) {
