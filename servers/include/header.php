@@ -1,7 +1,7 @@
 <?php
-include('../admin/connections/admin_register.php');
 session_start();
-if (empty($_SESSION['id'])) {
+include('../admin/connections/admin_register.php');
+if (empty($_SESSION['Admin_id'])) {
     header("Location: http://localhost/ETEC_FINAL/servers/admin/authentication/login.php");
     exit();
 }
@@ -11,34 +11,60 @@ if (empty($_SESSION['id'])) {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            display: flex;
-        }
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Normal sidebar style */
         #sidebar {
             width: 250px;
-            height: 100vh;
-            background: #343a40;
-            color: white;
-            padding-top: 20px;
-            position: fixed;
         }
 
-        #sidebar a {
-            color: white;
-            text-decoration: none;
-            padding: 15px;
-            display: block;
+        /* When collapsed */
+        #sidebar.collapsed {
+            width: 80px;
         }
 
-        #sidebar a:hover {
-            background: #495057;
+        #sidebar.collapsed .sidebar-text,
+        #sidebar.collapsed #sidebar-title {
+            display: none;
+        }
+
+        #sidebar.collapsed i {
+            margin-right: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        #main-content.collapsed {
+            margin-left: 80px;
+            width: calc(100% - 80px);
+        }
+
+        /* Mobile: hide sidebar by default */
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+            }
+
+            #sidebar.show {
+                transform: translateX(0);
+            }
         }
 
         #main-content {
@@ -47,16 +73,17 @@ if (empty($_SESSION['id'])) {
             width: calc(100% - 250px);
         }
     </style>
+
 </head>
 
 <body class="bg-gray-100">
+
     <?php
-    // include('../admin/connections/admin_register.php');
     if (!empty($_GET['message'])) {
         $message = $_GET['message'];
-        if (isset($message) == "success") {
+        if ($message == "success") {
             echo "
-                    <script>
+                <script>
                    Swal.fire({
                         title: 'Loading...',
                         text: 'Please wait...',
@@ -64,94 +91,65 @@ if (empty($_SESSION['id'])) {
                         didOpen: () => {
                             Swal.showLoading();
                             setTimeout(() => {
-                            Swal.close();
-                            }, 3000); // 3 seconds
+                                Swal.close();
+                            }, 3000);
                         }
-                        });
-                    </script>
-                    ";
+                    });
+                </script>
+            ";
         }
     }
     ?>
-    <!-- Sidebar -->
-    <div id="sidebar">
-        <h3 class="text-center text-lg font-semibold mb-4">Dashboard</h3>
-        <a href="#" onclick="loadPage('../admin/dashboard.php')" class="hover:bg-gray-700"><i
-                class="bi bi-house-door me-2"></i> Dashboard</a>
-        <a href="#" onclick="loadPage('../admin/invoice.php')" class="hover:bg-gray-700"><i
-                class="bi bi-receipt-cutoff me-2"></i> Invoice</a>
-        <a href="#" onclick="loadPage('analytics.php')" class="hover:bg-gray-700"><i class="bi bi-graph-up me-2"></i>
-            Analytics</a>
-        <a href="#" onclick="loadPage('settings.php')" class="hover:bg-gray-700"><i class="bi bi-gear me-2"></i>
-            Settings</a>
-        <a href="#" onclick="loadPage('../admin/form.php')" class="hover:bg-gray-700"><i
-                class="bi bi-ui-checks me-2"></i> Form</a>
 
-        <div class="relative mt-2">
-            <button id="dropdownButton" class="w-full text-left py-2 px-4 hover:bg-gray-700">
-                <i class="bi bi-person"></i> Account ▼
-            </button>
-            <div id="dropdownMenu" class="absolute left-0 w-full text-gray-900 border-0 rounded-md shadow-lg hidden">
-                <a href="#" class="block px-4 py-2 hover:bg-green-200 text-primary">Login</a>
-                <a href="#" class="block px-4 py-2 hover:bg-blue-200 text-success">Register</a>
-                <a href="#"
-                    class="block px-4 py-2 hover:bg-red-200 dropdown-item text-danger d-flex justify-content-between align-items-center">Logout
-                    <i class="bi bi-box-arrow-left"></i></a>
-            </div>
-        </div>
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="sidebar" class="bg-dark text-white flex flex-col fixed h-full transition-all duration-300 z-40"
+        style="width: 250px;">
+        <h3 id="sidebar-title" class="text-center text-lg font-semibold mb-4">Dashboard</h3>
+
+        <a href="#" onclick="loadPage('../admin/dashboard.php')" class="hover:bg-gray-700 flex items-center p-3">
+            <i class="bi bi-house-door me-2"></i>
+            <span class="sidebar-text">Dashboard</span>
+        </a>
+        <a href="#" onclick="loadPage('../admin/invoice.php')" class="hover:bg-gray-700 flex items-center p-3">
+            <i class="bi bi-receipt-cutoff me-2"></i>
+            <span class="sidebar-text">Invoice</span>
+        </a>
+        <a href="#" onclick="loadPage('../admin/analytics.php')" class="hover:bg-gray-700 flex items-center p-3">
+            <i class="bi bi-graph-up me-2"></i>
+            <span class="sidebar-text">Analytics</span>
+        </a>
+        <a href="#" onclick="loadPage('../admin/form.php')" class="hover:bg-gray-700 flex items-center p-3">
+            <i class="bi bi-ui-checks me-2"></i>
+            <span class="sidebar-text">Form</span>
+        </a>
+
+        <button onclick="toggleSidebar()" class="mt-auto bg-gray-700 hover:bg-gray-600 text-white p-2">
+            <i class="bi bi-list"></i>
+        </button>
     </div>
+
+    <!-- Floating button to open sidebar on small screens -->
+    <button id="openSidebarBtn" onclick="toggleSidebar()"
+        class="fixed top-4 left-4 bg-gray-100 text-gray-800 p-3 border-0 z-50 md:hidden">
+        <i class="bi bi-list text-2xl"></i>
+    </button>
+
+
+
 
     <!-- Main Content -->
     <div id="main-content">
-        <div id="content">
+        <?php include('./navbar.php'); ?> <!-- Navbar always fixed -->
+
+        <div id="content" class="mt-4">
             <h2 class="text-2xl font-bold">Welcome to Dashboard</h2>
             <p>Select a section from the sidebar.</p>
         </div>
     </div>
 
-    <!-- JS -->
-    <script>
-        const dropdownButton = document.getElementById("dropdownButton");
-        const dropdownMenu = document.getElementById("dropdownMenu");
-
-        dropdownButton.addEventListener("click", () => {
-            dropdownMenu.classList.toggle("hidden");
-        });
-
-        document.addEventListener("click", (event) => {
-            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add("hidden");
-            }
-        });
-
-        function loadPage(page) {
-            document.getElementById('content').innerHTML = 'Loading...';
-            fetch(page)
-                .then(response => {
-                    if (!response.ok) throw new Error("Page not found");
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('content').innerHTML = data;
-                    // Uncomment the next line to update the URL in the address bar:
-                    // window.history.pushState(null, '', page);
-                })
-                .catch(error => {
-                    document.getElementById('content').innerHTML = '<p class="text-red-500">Error loading page.</p>';
-                    console.error("Error loading page:", error);
-                });
-        }
-
-        // On refresh: Load correct content based on URL path
-        window.addEventListener("DOMContentLoaded", () => {
-            const path = window.location.pathname.split("/").pop();
-            const validPages = ["dashboard.php", "invoice.php", "analytics.php", "settings.php", "form.php"];
-            if (validPages.includes(path)) {
-                loadPage(path);
-            }
-        });
-    </script>
-
+    <!-- JS Scripts -->
+    <script src="../javascript/main.js"></script>
 </body>
 
 </html>

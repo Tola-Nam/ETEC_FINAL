@@ -58,9 +58,9 @@
                 <form class="form" method="post">
                     <?php include('../connections/admin_register.php');
 
-                    if (!empty($_GET['message'])) {
-                        $message = $_GET['message'];
-                        if (isset($message) == "fail") {
+                    if (!empty($_GET['status'])) {
+                        $status = $_GET['status'];
+                        if (isset($status) == "fail") {
                             echo "
                             <script>
                             Swal.fire({

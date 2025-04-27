@@ -1,6 +1,5 @@
 <?php
 include(__DIR__ . '/connection_database.php');
-
 class Admin_register
 {
 
@@ -60,9 +59,9 @@ class admin_signin_account extends Admin_register
     public function login_admin_account()
     {
         session_start();
-        // if (!empty($_SESSION['id'])) {
-        //     header("Location: http://localhost/ETEC_FINAL/servers/include/header.php");
-        // }
+        if (!empty($_SESSION['id'])) {
+            header("Location: http://localhost/ETEC_FINAL/servers/include/header.php");
+        }
         try {
             if (empty($this->UserName_Email) || empty($this->Password)) {
                 throw new Exception("Nothing: Username, email, and password are required.");
@@ -78,7 +77,7 @@ class admin_signin_account extends Admin_register
                     } else {
                         $admin_id = mysqli_fetch_assoc($result);
                         if (!empty($admin_id)) {
-                            $_SESSION['id'] = $admin_id['Admin_id'];
+                            $_SESSION['Admin_id'] = $admin_id['Admin_id'];
                             header("Location: http://localhost/ETEC_FINAL/servers/include/header.php?message=success");
                         } else {
                             header("Location: login.php?message=fail");
