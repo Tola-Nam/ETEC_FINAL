@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="http://localhost/ETEC_FINAL/servers/admin/theam.css">
     <!-- @link sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- <style>
         #loader-wrapper {
             position: fixed;
@@ -89,9 +90,13 @@
                         <span class="star"></span>
                     </section>
 
-                    <div class="input-container">
-                        <input class="input-pwd" name="Password" type="password" placeholder="Enter password">
+                    <div class="input-container" style="position: relative;">
+                        <input class="input-pwd" name="Password" id="confirm_pass" type="password"
+                            placeholder="Enter password" style="padding-right: 40px;">
+                        <i id="iconConfirmPassword" class="bi bi-eye-slash"
+                            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
                     </div>
+
                     <button type="submit" name="signin" class="submit">
                         <span class="sign-text">Sign in</span>
                     </button>
@@ -118,5 +123,26 @@
         }
     </script> -->
 </body>
+<script>
+    function togglePasswordVisibility(inputId, iconId) {
+        const passwordField = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+        }
+    }
+
+    document.getElementById("iconConfirmPassword").addEventListener("click", function () {
+        togglePasswordVisibility("confirm_pass", "iconConfirmPassword");
+    });
+</script>
+
 
 </html>

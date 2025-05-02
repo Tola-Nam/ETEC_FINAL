@@ -1,6 +1,7 @@
 <?php
 session_start();
-include('../admin/connections/admin_register.php');
+// session_destroy();
+require_once('../admin/connections/admin_register.php');
 if (empty($_SESSION['Admin_id'])) {
     header("Location: http://localhost/ETEC_FINAL/servers/admin/authentication/login.php");
     exit();
@@ -145,6 +146,36 @@ if (empty($_SESSION['Admin_id'])) {
         <div id="content" class="mt-4">
             <h2 class="text-2xl font-bold">Welcome to Dashboard</h2>
             <p>Select a section from the sidebar.</p>
+            <!-- Button to Open Modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                Open Modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Welcome Tola!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                            This is a simple modal window. You can put anything you want here: text, forms, images, etc!
+                        </div>
+
+                        <!-- Modal Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

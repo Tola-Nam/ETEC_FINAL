@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="http://localhost/ETEC_FINAL/servers/admin/theam.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -32,24 +33,41 @@
                             placeholder="Enter your email">
                     </div>
                 </div>
+                <!-- @input password -->
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input required class="form-control" placeholder="Enter your password" name="Password" id="password"
-                        type="password">
+                    <div class="input-container" style="position: relative;">
+                        <input required class="form-control" placeholder="Enter your password" name="Password"
+                            id="password" type="password" style="padding-right: 40px;">
+                        <i id="togglePassword" class="bi bi-eye-slash"
+                            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input required class="form-control" placeholder="Enter your confirm password"
-                        name="ConfirmPassword" id="confirm-password" type="password">
+                    <label for="confirm_pass">Confirm Password:</label>
+                    <div class="input-container" style="position: relative;">
+                        <input required class="form-control" placeholder="Confirm your password" name="ConfirmPassword"
+                            id="confirm_pass" type="password" style="padding-right: 40px;">
+                        <i id="toggleConfirmPassword" class="bi bi-eye-slash"
+                            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
+                    </div>
                 </div>
+
+
 
                 <div class="form-check mb-2">
                     <label for="gender">Gender</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="Gender" id="male" value="Male" required>Male
-                        <input class="form-check-input" type="radio" name="Gender" id="female" value="Female">Female
+                        <input class="form-check-input" type="radio" name="Gender" id="male" value="Male" required>
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="Gender" id="female" value="Female">
+                        <label class="form-check-label" for="female">Female</label>
                     </div>
                 </div>
+
                 <input type="submit" name="signup" class="btn" value="Signup">
                 <p class="signup-link">
                     No account?
@@ -59,5 +77,6 @@
         </div>
     </div>
 </body>
+<script src="http://localhost/ETEC_FINAL/servers/javascript/show_password.js"></script>
 
 </html>
