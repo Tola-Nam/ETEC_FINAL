@@ -1,3 +1,5 @@
-node_modules*/
+node_modules/
 .history/
-ETEC_FINAL/servers/assets/images*/
+ETEC_FINAL/servers/assets/images/
+package-lock.json
+package.json

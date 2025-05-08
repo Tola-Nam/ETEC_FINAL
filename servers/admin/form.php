@@ -59,7 +59,7 @@
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="product-name">Product title</label>
                 <input
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="text" id="product-name" name="product_title" placeholder="Enter product title" required>
+                    type="text" id="product-name" name="product_title" placeholder="Enter product title">
             </div>
 
             <!-- Price -->
@@ -67,14 +67,14 @@
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="price">Price ($)</label>
                 <input
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="text" id="price" name="product_price" placeholder="Enter price" required>
+                    type="text" id="price" name="product_price" placeholder="Enter price">
             </div>
             <!-- STOCK -->
             <div class="mb-4">
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="price">Stock</label>
                 <input
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="number" name="stock" id="stock" placeholder="Enter stock" required>
+                    type="number" name="stock" id="stock" placeholder="Enter stock">
             </div>
 
             <!-- Category -->
@@ -82,7 +82,7 @@
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="category">Category</label>
                 <select name="category"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    id="category" required>
+                    id="category">
                     <option value="" disabled selected>Select a category</option>
                     <option value="electronics">Electronics</option>
                     <option value="fashion">Fashion</option>
@@ -96,7 +96,7 @@
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="description">Description</label>
                 <textarea name="product_description"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    id="description" rows="4" placeholder="Enter product description" required></textarea>
+                    id="description" rows="4" placeholder="Enter product description"></textarea>
             </div>
 
             <!-- Product Image Upload -->
@@ -104,7 +104,7 @@
                 <label class="block text-gray-600 text-sm font-medium mb-1" for="product-image">Product Image</label>
                 <input
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="file" name="product_thumbnail" id="product-image" required>
+                    type="file" name="product_thumbnail" id="product-image">
             </div>
 
             <!-- Submit Button -->
