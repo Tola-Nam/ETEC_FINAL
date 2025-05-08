@@ -1,5 +1,6 @@
 node_modules/
 .history/
+.idea/
 ETEC_FINAL/servers/assets/images/
 package-lock.json
 package.json
