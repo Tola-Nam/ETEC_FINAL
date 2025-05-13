@@ -23,7 +23,7 @@
     <!-- @link css -->
     <!-- <link rel="stylesheet" href="http://localhost/ETEC_FINAL/public/src/style/style.css"> -->
     <!-- @link tailwindcss -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
 
 
 </head>

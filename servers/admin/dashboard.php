@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dark Dashboard</title>
-    <link rel="stylesheet" href="/public/css/tailwind.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+<!-- Remove this line -->
+<link href="https://cdn.tailwindcss.com" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 
 <body class="bg-gray-900 text-white">
-
     <div class="p-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-gray-800 p-4 rounded-xl">
@@ -41,7 +32,9 @@
             <canvas id="visitorsChart" height="100"></canvas>
         </div>
     </div>
+
     <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('visitorsChart').getContext('2d');
         const visitorsChart = new Chart(ctx, {

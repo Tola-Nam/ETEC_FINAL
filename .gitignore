@@ -1,6 +1,6 @@
 node_modules/
 .history/
 .idea/
-ETEC_FINAL/servers/assets/images/
+ETEC_FINAL/servers/assets/
 package-lock.json
 package.json
