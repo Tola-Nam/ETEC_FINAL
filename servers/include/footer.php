@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    .dropdown-menu {
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        display: block;
+        /* Keeps Bootstrap from overriding our effect */
+        visibility: hidden;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Dropdown with Animation</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css"> <!-- Local Bootstrap -->
-    <script src="js/bootstrap.bundle.min.js"></script> <!-- Local Bootstrap JS -->
-    <style>
-        .dropdown-menu {
-            transform: scale(0.9);
-            opacity: 0;
-            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-            display: block;
-            /* Keeps Bootstrap from overriding our effect */
-            visibility: hidden;
-        }
-
-        .dropdown-menu.show {
-            transform: scale(1);
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
-</head>
+    .dropdown-menu.show {
+        transform: scale(1);
+        opacity: 1;
+        visibility: visible;
+    }
+</style>
 
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
 

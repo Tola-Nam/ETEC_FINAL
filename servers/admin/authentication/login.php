@@ -91,7 +91,7 @@
                     </section>
 
                     <div class="input-container" style="position: relative;">
-                        <input class="input-pwd" name="Password" id="confirm_pass" type="password"
+                        <input class="input-pwd" name="Password" id="confirm_pass" type="password" required
                             placeholder="Enter password" style="padding-right: 40px;">
                         <i id="iconConfirmPassword" class="bi bi-eye-slash"
                             style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>

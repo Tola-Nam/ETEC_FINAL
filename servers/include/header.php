@@ -12,7 +12,7 @@ if (empty($_SESSION['Admin_id'])) {
 // Handle AJAX route request
 if (isset($_GET['ajax'])) {
     $page = $_GET['page'] ?? 'dashboard';
-    $whitelist = ['dashboard', 'invoice', 'analytics', 'form'];
+    $whitelist = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport'];
     if (in_array($page, $whitelist)) {
         // Start output buffering to capture all output including any JavaScript
         ob_start();
@@ -25,6 +25,7 @@ if (isset($_GET['ajax'])) {
     }
     exit(); // stop full HTML from rendering on AJAX
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,71 +33,39 @@ if (isset($_GET['ajax'])) {
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+    <!-- Root favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Linux + modern browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This is a sample website for showcasing metadata usage.">
+    <meta name="keywords" content="HTML, metadata, SEO, web development">
+    <meta name="author" content="Online sale">
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Your Website Title">
+    <meta property="og:description" content="Description shown when your link is shared on social media.">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Your Website Title">
+    <meta name="twitter:description" content="Twitter description of your website">
+    <meta name="twitter:image" content="https://example.com/image.jpg">
     <!-- Bootstrap & Tailwind -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- @link sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- @ link css -->
+    <link rel="stylesheet" href="./Tailwind.css">
     <!-- Add Chart.js for dashboard charts if needed -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-    <style>
-        /* Default sidebar width */
-        #sidebar {
-            width: 250px;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
 
-        /* Mobile: hide sidebar off-screen */
-        @media (max-width: 768px) {
-            #sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                transform: translateX(-100%);
-                z-index: 1001;
-            }
-
-            #sidebar.show {
-                transform: translateX(0);
-            }
-
-            #overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 1000;
-            }
-
-            #main-content {
-                margin-left: 0 !important;
-            }
-        }
-
-        /* Desktop: normal fixed sidebar */
-        @media (min-width: 769px) {
-            #sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                overflow-y: auto;
-            }
-
-            #main-content {
-                margin-left: 250px;
-            }
-        }
-    </style>
 </head>
 
 <body class="bg-gray-100 text-white">
@@ -122,7 +91,8 @@ if (isset($_GET['ajax'])) {
         }
     }
     ?>
-    <!-- Overlay for closing sidebar -->
+
+    <!-- Overlay for closing sidebar on mobile -->
     <div id="overlay" onclick="toggleSidebar()"></div>
 
     <!-- Sidebar -->
@@ -134,6 +104,9 @@ if (isset($_GET['ajax'])) {
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="invoice">
             <i class="bi bi-receipt-cutoff me-2"></i><span class="sidebar-text">Invoice</span>
         </a>
+        <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="invoiceReport">
+            <i class="bi bi-receipt-cutoff me-2"></i><span class="sidebar-text">InvoiceReport</span>
+        </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="analytics">
             <i class="bi bi-graph-up me-2"></i><span class="sidebar-text">Analytics</span>
         </a>
@@ -142,10 +115,10 @@ if (isset($_GET['ajax'])) {
         </a>
     </div>
 
-    <!-- Mobile Toggle Button -->
-    <!-- bg-gray-100  -->
-    <button id="openSidebarBtn" onclick="toggleSidebar()" class="fixed top-4 left-4 text-gray-800 p-3 z-50 md:hidden">
-        <i class="bi bi-list text-2xl"></i>
+    <!-- Mobile Toggle Button - Fixed positioning and visibility -->
+    <button id="openSidebarBtn" onclick="toggleSidebar()"
+        class="fixed text-gray-800 p-2 rounded-md z-80 md:hidden hover:bg-gray-100 transition-colors">
+        <i class="bi bi-list text-xl"></i>
     </button>
 
     <!-- Main Content -->
@@ -164,9 +137,11 @@ if (isset($_GET['ajax'])) {
             if (isOpen) {
                 sidebar.classList.remove("show");
                 overlay.style.display = "none";
+                document.body.style.overflow = "auto"; // Re-enable scrolling
             } else {
                 sidebar.classList.add("show");
                 overlay.style.display = "block";
+                document.body.style.overflow = "hidden"; // Prevent background scrolling
             }
         }
 
@@ -184,20 +159,41 @@ if (isset($_GET['ajax'])) {
                 script.remove();
             });
 
-            // Then execute each script
+            // Then execute each script with proper error handling
             scripts.forEach(script => {
-                const newScript = document.createElement('script');
+                try {
+                    // Skip external scripts to avoid conflicts
+                    if (script.src) {
+                        return;
+                    }
 
-                // Copy attributes
-                Array.from(script.attributes).forEach(attr => {
-                    newScript.setAttribute(attr.name, attr.value);
-                });
-
-                // Copy content
-                newScript.textContent = script.textContent;
-
-                // Add to document
-                document.body.appendChild(newScript);
+                    // Wrap script content in IIFE to avoid variable conflicts
+                    const scriptContent = script.textContent;
+                    if (scriptContent.trim()) {
+                        // Create isolated scope for script execution
+                        const wrappedScript = `
+                            (function() {
+                                try {
+                                    ${scriptContent}
+                                } catch(e) {
+                                    console.warn('Script execution error:', e);
+                                }
+                            })();
+                        `;
+                        // Execute in global scope but with error handling
+                        const newScript = document.createElement('script');
+                        newScript.textContent = wrappedScript;
+                        document.body.appendChild(newScript);
+                        // Clean up script element after execution
+                        setTimeout(() => {
+                            if (newScript.parentNode) {
+                                newScript.parentNode.removeChild(newScript);
+                            }
+                        }, 100);
+                    }
+                } catch (e) {
+                    console.warn('Error processing script:', e);
+                }
             });
         }
 
@@ -261,7 +257,7 @@ if (isset($_GET['ajax'])) {
             const sidebar = document.getElementById("sidebar");
             const overlay = document.getElementById("overlay");
             const sidebarToggleBtn = document.getElementById("openSidebarBtn");
-            const isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= 767;
 
             if (
                 isMobile &&
@@ -269,8 +265,24 @@ if (isset($_GET['ajax'])) {
                 !sidebar.contains(event.target) &&
                 (!sidebarToggleBtn || !sidebarToggleBtn.contains(event.target))
             ) {
+                toggleSidebar();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("overlay");
+            if (window.innerWidth >= 768) {
+                // Desktop: always show sidebar, hide overlay
                 sidebar.classList.remove("show");
                 overlay.style.display = "none";
+                document.body.style.overflow = "auto";
+            } else {
+                // Mobile: hide sidebar unless explicitly shown
+                if (!sidebar.classList.contains("show")) {
+                    overlay.style.display = "none";
+                }
             }
         });
 
@@ -288,7 +300,7 @@ if (isset($_GET['ajax'])) {
                     navigate(page);
 
                     // On mobile, also close the sidebar
-                    if (window.innerWidth <= 768) {
+                    if (window.innerWidth <= 767) {
                         toggleSidebar();
                     }
                 });

@@ -37,8 +37,8 @@
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <div class="input-container" style="position: relative;">
-                        <input required class="form-control" placeholder="Enter your password" name="Password"
-                            id="password" type="password" style="padding-right: 40px;">
+                        <input required class="form-control" pattern="[A-Za-z]{6,}" placeholder="Enter your password"
+                            name="Password" id="password" type="password" style="padding-right: 40px;">
                         <i id="togglePassword" class="bi bi-eye-slash"
                             style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
                     </div>
@@ -47,8 +47,8 @@
                 <div class="form-group">
                     <label for="confirm_pass">Confirm Password:</label>
                     <div class="input-container" style="position: relative;">
-                        <input required class="form-control" placeholder="Confirm your password" name="ConfirmPassword"
-                            id="confirm_pass" type="password" style="padding-right: 40px;">
+                        <input required class="form-control" pattern="[A-Za-z]{6,}" placeholder="Confirm your password"
+                            name="ConfirmPassword" id="confirm_pass" type="password" style="padding-right: 40px;">
                         <i id="toggleConfirmPassword" class="bi bi-eye-slash"
                             style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
                     </div>
