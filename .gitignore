@@ -1,1 +1,17 @@
-node_modules*/
+# Node dependencies
+node_modules/
+
+# Editor/IDE files
+.idea/
+.history/
+
+# Build/compiled assets or static directories
+ETEC_FINAL/servers/assets/
+
+# Node.js config and lock files
+package-lock.json
+package.json
+
+# Tailwind and PostCSS config files
+postcss.config.js
+tailwind.config.js
