@@ -1,0 +1,114 @@
+.swiper {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.footer {
+  background: #222;
+  color: white;
+  padding: 40px 0;
+}
+
+.footer .text-title span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #f8a100;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.footer p {
+  font-size: 14px;
+  color: #ddd;
+}
+
+.footer form .form-control {
+  border-radius: 5px;
+}
+
+.footer form .btn {
+  background: #f8a100;
+  border: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.footer form .btn:hover {
+  background: #e69500;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer .container {
+  background: #333;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* For small screens, keep the icons in a row */
+@media (max-width: 768px) {
+  .icons {
+    flex-direction: row !important;
+    justify-content: center;
+  }
+
+  .icons .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}

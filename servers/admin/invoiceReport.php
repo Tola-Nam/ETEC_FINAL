@@ -6,7 +6,7 @@
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-6 py-3 text-left">
-                                <input type="checkbox"
+                                <input type="checkbox" id="checkAll"
                                     class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -31,8 +31,8 @@
                         <!-- Row 1: Constance Norton -->
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
-                                <input type="checkbox" checked
-                                    class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                                <input type="checkbox" id="checkbox"
+                                    class="checkboxAll w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -103,8 +103,8 @@
                         <!-- Row 2: Stacey Santiago -->
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
-                                <input type="checkbox" checked
-                                    class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                                <input type="checkbox"
+                                    class="checkboxAll w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -172,11 +172,11 @@
                             </td>
                         </tr>
 
-                        <!-- Row 3: Elizabeth Yanez -->
+                        <!-- Row 3: Elizabeth  -->
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
-                                <input type="checkbox" checked
-                                    class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                                <input type="checkbox"
+                                    class="checkboxAll w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -249,5 +249,17 @@
         </div>
     </div>
 </body>
+
+<script>
+    const checkboxAll = document.getElementById('checkAll');
+    const checklist = document.querySelectorAll('.checkboxAll');
+
+    checkboxAll.addEventListener('change', function () {
+        checklist.forEach(checklist => {
+            checklist.checked = checkboxAll.checked;
+        });
+    });
+</script>
+
 
 </html>

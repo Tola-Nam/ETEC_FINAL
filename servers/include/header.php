@@ -9,12 +9,12 @@ if (empty($_SESSION['Admin_id'])) {
     exit();
 }
 
-// Handle AJAX route request
+//~ Handle AJAX route request
 if (isset($_GET['ajax'])) {
     $page = $_GET['page'] ?? 'dashboard';
     $whitelist = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport'];
     if (in_array($page, $whitelist)) {
-        // Start output buffering to capture all output including any JavaScript
+        //? Start output buffering to capture all output including any JavaScript
         ob_start();
         include(__DIR__ . "/../admin/{$page}.php");
         $content = ob_get_clean();
@@ -23,7 +23,7 @@ if (isset($_GET['ajax'])) {
         http_response_code(404);
         echo "<p class='text-red-600'>404 - Page Not Found</p>";
     }
-    exit(); // stop full HTML from rendering on AJAX
+    exit(); //! stop full HTML from rendering on AJAX
 }
 
 ?>
@@ -159,15 +159,15 @@ if (isset($_GET['ajax'])) {
                 script.remove();
             });
 
-            // Then execute each script with proper error handling
+            //~ Then execute each script with proper error handling
             scripts.forEach(script => {
                 try {
-                    // Skip external scripts to avoid conflicts
+                    //^ Skip external scripts to avoid conflicts
                     if (script.src) {
                         return;
                     }
 
-                    // Wrap script content in IIFE to avoid variable conflicts
+                    //& Wrap script content in IIFE to avoid variable conflicts
                     const scriptContent = script.textContent;
                     if (scriptContent.trim()) {
                         // Create isolated scope for script execution
@@ -180,7 +180,7 @@ if (isset($_GET['ajax'])) {
                                 }
                             })();
                         `;
-                        // Execute in global scope but with error handling
+                        //! Execute in global scope but with error handling
                         const newScript = document.createElement('script');
                         newScript.textContent = wrappedScript;
                         document.body.appendChild(newScript);
@@ -202,7 +202,7 @@ if (isset($_GET['ajax'])) {
             // Show loading indicator
             document.getElementById("content").innerHTML = '<div class="text-center"><i class="bi bi-hourglass-split text-4xl animate-spin text-gray-800"></i><p class="text-gray-800">Loading...</p></div>';
 
-            // Make sure we're using the correct path
+            //^ Make sure we're using the correct path
             const basePath = '/ETEC_FINAL/servers';
 
             fetch(`${basePath}/include/header.php?ajax=1&page=${page}`)
@@ -223,7 +223,7 @@ if (isset($_GET['ajax'])) {
                             history.pushState({ page }, "", `?page=${page}`);
                         }
 
-                        // Update active state in sidebar
+                        //~ Update active state in sidebar
                         updateSidebarActiveState(page);
                     }, 100);
                 })
@@ -252,7 +252,7 @@ if (isset($_GET['ajax'])) {
             }
         }
 
-        // Close sidebar when clicking outside of it (mobile only)
+        //? Close sidebar when clicking outside of it (mobile only)
         document.addEventListener("click", function (event) {
             const sidebar = document.getElementById("sidebar");
             const overlay = document.getElementById("overlay");
@@ -269,7 +269,7 @@ if (isset($_GET['ajax'])) {
             }
         });
 
-        // Handle window resize
+        //? Handle window resize
         window.addEventListener('resize', function () {
             const sidebar = document.getElementById("sidebar");
             const overlay = document.getElementById("overlay");
@@ -279,7 +279,7 @@ if (isset($_GET['ajax'])) {
                 overlay.style.display = "none";
                 document.body.style.overflow = "auto";
             } else {
-                // Mobile: hide sidebar unless explicitly shown
+                //! Mobile: hide sidebar unless explicitly shown
                 if (!sidebar.classList.contains("show")) {
                     overlay.style.display = "none";
                 }
@@ -292,7 +292,7 @@ if (isset($_GET['ajax'])) {
             const page = params.get("page") || "dashboard";
             navigate(page, false);
 
-            // Add click event listeners to all sidebar links
+            //& Add click event listeners to all sidebar links
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -307,7 +307,7 @@ if (isset($_GET['ajax'])) {
             });
         });
 
-        // Handle browser back/forward buttons
+        //! Handle browser back/forward buttons
         window.addEventListener('popstate', function (event) {
             if (event.state && event.state.page) {
                 navigate(event.state.page, false);

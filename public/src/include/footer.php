@@ -1,106 +1,219 @@
-<!-- Footer -->
-<div class="footer">
-    <div class="container bg-dark shadow">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="text-title">
-                    <span>Let's Stay in Touch</span>
-                    <p>We'll send you a nice update once per week.</p>
-                </div>
-            </div>
-            <div class="col-md-6 mt-2">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="email" placeholder="example@gmail.com" aria-label="Email">
-                    <button class="btn" type="submit">Subscribe</button>
-                </form>
-            </div>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'brand-purple': '#6366f1',
+                    'brand-purple-light': '#818cf8',
+                    'brand-purple-dark': '#4f46e5'
+                }
+            }
+        }
+    }
+</script>
+<style>
+    /* Custom animations and transitions */
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-2px);
+    }
+
+    .gradient-bg {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    }
+
+    .link-hover {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .link-hover::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: white;
+        transition: width 0.3s ease;
+    }
+
+    .link-hover:hover::after {
+        width: 100%;
+    }
+
+    .newsletter-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+
+    .subscribe-btn {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .subscribe-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .subscribe-btn:hover::before {
+        left: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-center {
+            text-align: center;
+        }
+    }
+</style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- Main content placeholder -->
+    <div class="flex-1 flex items-center justify-center py-20">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Your Website Content</h1>
+            <p class="text-gray-600">Scroll down to see the enhanced footer</p>
         </div>
-
-        <div class="row text-center text-md-start">
-            <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <div class="text-title">
-                    <span>Pagedone</span>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <div class="text-title">
-                    <span>Products</span>
-                    <ul>
-                        <li><a href="#">Overview</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Support</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <div class="text-title">
-                    <span>Resources</span>
-                    <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Guides</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <div class="text-title">
-                    <span>Social</span>
-                    <ul>
-                        <li><a href="https://web.facebook.com/tola.kpt.142">Facebook</a></li>
-                        <li><a href="https://www.instagram.com/namtola4444gmail.com7/">instagram</a></li>
-                        <li><a href="https://www.tiktok.com/@nam_tola">Tik Tok</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-2 mb-3">
-                <div class="text-title">
-                    <span>Legal</span>
-                    <ul>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Map Section -->
-            <div class="col-12 col-md-8 mt-2">
-                <div class="map-container">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.6747282215246!2d104.91027381468783!3d11.55967199112616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951467f5f517f%3A0xe742e4b25130fdd2!2sPhnom%20Penh%2C%20Cambodia!5e0!3m2!1sen!2sus!4v1618298398292"
-                        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Social Media Section (Initially beside the map, drops below on small screens) -->
-            <div
-                class="col-12 col-md-4 d-flex justify-content-center justify-content-md-end align-items-center mt-2 mt-md-0">
-                <div class="icons">
-                    <form action="" method="post">
-                        <button type="submit" name="btn_twitter" class="btn btn-success me-2 mb-2"><i
-                                class="bi bi-twitter"></i></button>
-                        <button name="btn_linkedin" class="btn btn-success me-2 mb-2"><i
-                                class="bi bi-linkedin"></i></button>
-                        <button name="btn_facebook" class="btn btn-success me-2 mb-2"><i
-                                class="bi bi-facebook"></i></button>
-                        <button type="submit" name="btn_messagenger" class="btn btn-success me-2 mb-2"><i
-                                class="bi bi-messenger"></i></button>
-                        <button name="btn_instagram" class="btn btn-success me-2 mb-2"><i
-                                class="bi bi-instagram"></i></button>
-                        <button name="btn_telegram" class="btn btn-success mb-2"><i class="bi bi-telegram"></i></button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
+
+    <!-- Enhanced Footer -->
+    <footer class="gradient-bg text-white relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-32 -translate-y-32"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-48 translate-y-48"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <!-- Shop Section -->
+                <div class="mobile-center hover-lift">
+                    <h3 class="text-xl font-bold mb-6 text-white">
+                        <span class="border-b-2 border-white/30 pb-2">Shop</span>
+                    </h3>
+                    <ul class="space-y-3">
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">New
+                                Arrivals</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Men's
+                                Collection</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Women's
+                                Collection</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Sale
+                                Items</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Accessories</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Support Section -->
+                <div class="mobile-center hover-lift">
+                    <h3 class="text-xl font-bold mb-6 text-white">
+                        <span class="border-b-2 border-white/30 pb-2">Support</span>
+                    </h3>
+                    <ul class="space-y-3">
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Contact
+                                Us</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Size
+                                Guide</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Returns
+                                & Exchanges</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">FAQ</a>
+                        </li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Shipping
+                                Info</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Section -->
+                <div class="mobile-center hover-lift">
+                    <h3 class="text-xl font-bold mb-6 text-white">
+                        <span class="border-b-2 border-white/30 pb-2">Company</span>
+                    </h3>
+                    <ul class="space-y-3">
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">About
+                                Us</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Careers</a>
+                        </li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Sustainability</a>
+                        </li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Press &
+                                Media</a></li>
+                        <li><a href="#"
+                                class="link-hover text-white/90 hover:text-white text-sm font-medium block py-1">Investors</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Section -->
+                <div class="mobile-center hover-lift lg:col-span-1">
+                    <h3 class="text-xl font-bold mb-6 text-white">
+                        <span class="border-b-2 border-white/30 pb-2">Stay Connected</span>
+                    </h3>
+                    <p class="text-white/90 mb-6 text-sm leading-relaxed">
+                        Subscribe to get updates on new products, exclusive offers, and style inspiration delivered to
+                        your inbox.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input type="email" placeholder="Enter your email"
+                                class="newsletter-input flex-1 px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent focus:border-white/50 transition-all duration-300" />
+                            <button
+                                class="subscribe-btn flex-shrink-0 min-w-[120px] bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-xl hover:from-purple-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-400">
+                                Subscribe
+                            </button>
+
+                        </div>
+
+                        <!-- Social Media Links -->
+                        <div class="flex justify-center lg:justify-start space-x-4 mt-6">
+                            <a href="#"
+                                class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all duration-300">
+                                <span class="text-white font-bold">f</span>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all duration-300">
+                                <span class="text-white font-bold">t</span>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all duration-300">
+                                <span class="text-white font-bold">i</span>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all duration-300">
+                                <span class="text-white font-bold">y</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

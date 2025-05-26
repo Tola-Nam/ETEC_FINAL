@@ -425,3 +425,128 @@ body {
   border-radius: 5px;
   font-size: 1rem;
 }
+/* invoice */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .invoice-container {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .print-break {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure good contrast for printing */
+  .text-gray-600 {
+    color: #374151 !important;
+  }
+
+  .text-gray-700 {
+    color: #374151 !important;
+  }
+
+  /* A4 size adjustments */
+  .a4-size {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+  }
+
+  /* Letter size adjustments */
+  .letter-size {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 1in;
+  }
+
+  /* Legal size adjustments */
+  .legal-size {
+    width: 8.5in;
+    min-height: 14in;
+    padding: 1in;
+  }
+}
+
+/* Size preview classes */
+.size-small {
+  transform: scale(0.8);
+  transform-origin: top left;
+}
+
+.size-medium {
+  transform: scale(1);
+}
+
+.size-large {
+  transform: scale(1.2);
+  transform-origin: top left;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Editable fields */
+.editable {
+  transition: all 0.2s ease;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.editable:hover {
+  background-color: #f3f4f6;
+  cursor: text;
+}
+
+.editable:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+  background-color: white;
+}
+
+/* Validation styles */
+.invalid {
+  border: 1px solid #ef4444;
+  background-color: #fef2f2;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
