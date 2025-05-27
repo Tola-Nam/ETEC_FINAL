@@ -1,6 +1,7 @@
 <?php
 session_start();
 // session_destroy();
+// require_once('//public/src/models/getthumbnail.php');
 require_once('../admin/connections/admin_register.php');
 require_once('../admin/connections/product_information.php');
 

@@ -80,14 +80,6 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen">
-    <!-- Main content placeholder -->
-    <div class="flex-1 flex items-center justify-center py-20">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Your Website Content</h1>
-            <p class="text-gray-600">Scroll down to see the enhanced footer</p>
-        </div>
-    </div>
-
     <!-- Enhanced Footer -->
     <footer class="gradient-bg text-white relative overflow-hidden">
         <!-- Background decoration -->

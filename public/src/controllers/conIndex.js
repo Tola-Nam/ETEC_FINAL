@@ -1,3 +1,4 @@
+// !do not use it in file index.php
 // Initialize app after resources load
 function initializeApp() {
   //! Initialize Swiper
