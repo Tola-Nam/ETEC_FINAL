@@ -93,7 +93,7 @@ setTimeout(() => {
   document.getElementById("loading-screen").style.display = "none";
   const mainContent = document.getElementById("main-content");
   mainContent.style.display = "block";
-  //! Force reflow then add loaded class for smooth fade-in
+  //! Force reflowing then add loaded class for smooth fade-in
   mainContent.offsetHeight;
   mainContent.classList.add("loaded");
 }, 800);

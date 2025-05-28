@@ -4,7 +4,6 @@ require_once('./connection.php');
 function GetProduct(): void
 {
     $connection = connection();
-
     //~ Fetch all goods ordered by category
     $getter = "SELECT * FROM `goods` ORDER BY `category` ASC";
     $result = $connection->query($getter);

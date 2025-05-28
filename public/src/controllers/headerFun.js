@@ -9,7 +9,7 @@ function closeModal() {
 }
 
 function showLoginForm() {
-  document.getElementById("signin").classList.remove("hidden");
+  document.getElementById("signIn").classList.remove("hidden");
   document.getElementById("signUp").classList.add("hidden");
 
   // Update button styles
@@ -20,7 +20,7 @@ function showLoginForm() {
 }
 
 function showRegisterForm() {
-  document.getElementById("signin").classList.add("hidden");
+  document.getElementById("signIn").classList.add("hidden");
   document.getElementById("signUp").classList.remove("hidden");
 
   // Update button styles
@@ -30,7 +30,7 @@ function showRegisterForm() {
   document.getElementById("btnLogin").classList.add("text-gray-500");
 }
 
-// Event listeners for form switching
+//! Event listeners for form switching
 document.getElementById("btnLogin").addEventListener("click", showLoginForm);
 document
   .getElementById("btnRegister")

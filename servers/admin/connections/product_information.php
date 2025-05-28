@@ -56,7 +56,7 @@ if (!class_exists('Product_information')) {
     }
 }
 
-// Handle AJAX request
+//! Handle AJAX request
 try {
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $product_title = $_POST['product_title'] ?? '';

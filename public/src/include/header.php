@@ -1,3 +1,4 @@
+<?php require_once('../models/userCon.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,7 +73,7 @@
             </div>
 
             <!-- Sign In Form -->
-            <form action="#" id="signin" class="hidden" method="post" enctype="multipart/form-data">
+            <form action="#" id="signIn" class="hidden" method="post" enctype="multipart/form-data">
                 <h2 class="text-lg font-bold mb-4 text-gray-700">Login account</h2>
                 <div class="mb-4">
                     <!-- Email input -->
@@ -123,22 +124,28 @@
                 <h2 class="text-lg font-bold mb-4 text-gray-700">Register account</h2>
                 <div class="mb-4">
                     <!-- First name input -->
-                    <div class="mb-3">
-                        <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
-                            Please enter your first name
-                        </label>
-                        <input type="text" name="first-name" id="first-name" placeholder="Enter your first name"
-                            required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <div class="flex gap-4 mb-3">
+                        <!-- First name input -->
+                        <div class="w-1/2">
+                            <label for="first-name" class="block text-sm font-medium text-gray-700 mb-2">
+                                Please enter your first name
+                            </label>
+                            <input type="text" name="firstName" id="first-name" placeholder="Enter your first name"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+
+                        <!-- Last name input -->
+                        <div class="w-1/2">
+                            <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">
+                                Please enter your last name
+                            </label>
+                            <input type="text" name="lastName" id="last-name" placeholder="Enter your last name"
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
                     </div>
-                    <!-- Last name input -->
-                    <div class="mb-3">
-                        <label for="last-name" class="block text-sm font-medium text-gray-700 mb-2">
-                            Please enter your last name
-                        </label>
-                        <input type="text" name="last-name" id="last-name" placeholder="Enter your last name" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-                    </div>
+
                     <!-- Email input -->
                     <div class="mb-3">
                         <label for="register-email" class="block text-sm font-medium text-gray-700 mb-2">
@@ -147,21 +154,40 @@
                         <input type="email" name="email" id="register-email" placeholder="Enter your email" required
                             class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
                     </div>
+
                     <!-- phone number input -->
                     <div class="mb-3">
                         <label for="register-phone" class="block text-sm font-medium text-gray-700 mb-2">
                             Please enter your phone number
                         </label>
-                        <input type="tel" name="phone-number" id="register-phone" placeholder="Enter your phone number"
+                        <input type="tel" name="phoneNumber" id="register-phone" placeholder="Enter your phone number"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
                     </div>
+
                     <!-- Password Input with Toggle -->
                     <div class="relative w-full">
                         <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">
                             Please enter your password
                         </label>
                         <input type="password" name="password" id="register-password" placeholder="Enter your password"
+                            autocomplete="current-password"
                             class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
+                        <!-- Toggle Icon -->
+                        <button type="button" id="toggleRegisterPassword"
+                            class="absolute top-[38px] right-3 text-gray-500 hover:text-gray-700">
+                            <i id="iconRegisterPassword" class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                    <!--confirm Password Input with Toggle -->
+                    <div class="relative w-full">
+                        <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">
+                            Please enter your password
+                        </label>
+                        <input type="password" name="confirmPassword" id="register-password"
+                            placeholder="Enter your password" autocomplete="current-password"
+                            class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+
                         <!-- Toggle Icon -->
                         <button type="button" id="toggleRegisterPassword"
                             class="absolute top-[38px] right-3 text-gray-500 hover:text-gray-700">
@@ -169,6 +195,7 @@
                         </button>
                     </div>
                 </div>
+
                 <!-- Modal Footer -->
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeModal()"

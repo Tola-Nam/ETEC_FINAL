@@ -24,7 +24,6 @@ require_once('../models/connection.php');
             },
         };
     </script>
-
     <style>
         /* Custom animations and styles */
         @keyframes spin {
@@ -149,22 +148,26 @@ require_once('../models/connection.php');
                 foreach ($categoryProducts as $category => $products) {
                     echo "<h4 class='text-2xl font-bold text-gray-900 mb-6 mt-8'>" . htmlspecialchars($category) . "</h4>";
                     echo "<div class='category-row'>";
-
                     foreach ($products as $product) {
-                        echo "<a href='./product.php?code=" . urlencode($product['product_code']) . "' 
-                                class='product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer'>
-                                <img src='http://localhost/ETEC_FINAL/servers/assets/images/" . htmlspecialchars($product['product_thumbnail']) . "' 
-                                     class='w-full h-48 object-cover' 
-                                     alt='" . htmlspecialchars($product['product_title']) . "' 
-                                     loading='lazy'>
-                                <div class='p-4'>
-                                    <h5 class='text-lg font-semibold text-gray-900 mb-2'>" . htmlspecialchars($product['product_title']) . "</h5>
-                                    <p class='text-gray-600 text-sm mb-3'>" . htmlspecialchars($product['product_description']) . "</p>
-                                    <span class='inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium'>$" . number_format($product['product_price'], 2) . "</span>
+                        echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
                                 </div>
-                              </a>";
-                    }
 
+                                <div class="p-4">
+                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
+                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                    $' . number_format($product['product_price'], 2) . '
+                                    </span>
+                                </div>
+                            </a>';
+                    }
                     echo "</div>"; //! Close category-row
                 }
             } else {
@@ -189,6 +192,4 @@ require_once('../models/connection.php');
         });
     </script>
     <!-- <script src="../controllers/conIndex.js"></script> -->
-    <footer>
-        <?php include('../include/footer.php') ?>
-    </footer>
+    <?php include('../include/footer.php') ?>
