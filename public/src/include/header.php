@@ -112,7 +112,7 @@
                         class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
                         <i class="bi bi-x-circle me-2"></i> Cancel
                     </button>
-                    <button type="submit" name="Confirm"
+                    <button type="submit" name="SignIn"
                         class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
                         <i class="bi bi-check-circle me-2"></i> Login
                     </button>
@@ -202,7 +202,7 @@
                         class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
                         <i class="bi bi-x-circle me-2"></i> Cancel
                     </button>
-                    <button type="submit" name="Confirm"
+                    <button type="submit" name="SignUp"
                         class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
                         <i class="bi bi-check-circle me-2"></i> Register
                     </button>

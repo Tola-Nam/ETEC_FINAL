@@ -12,7 +12,7 @@ class User
         $this->password = $password;
         $this->confirmPassword = $confirmPassword;
     }
-
+    //? function for register account for contact for buying production
     public function register()
     {
         if ($this->password !== $this->confirmPassword) {
@@ -32,10 +32,28 @@ class User
                   VALUES ('$this->firstName','$this->lastName','$this->email','$this->phoneNumber','$passwordHash')";
 
         if ($conn->query($query)) {
-            header('http://localhost/ETEC_FINAL/public/src/views/header.php');
+            header('Location: http://localhost/ETEC_FINAL/public/src/views/index.php');
             exit;
         } else {
             echo '<script>alert("Registration failed. Please try again.");</script>';
+        }
+    }
+
+    //! function for signin account if user have been signup account ready.
+
+    public function signIn()
+    {
+        $conn = connection();
+        if (!empty($this->email) || !empty($this->phoneNumber) || !empty($this->password)) {
+            $passwordHash = password_hash($this->password, PASSWORD_DEFAULT); //~ best practice
+            $selectQuery = " SELECT u.email,u.phoneNumber,u.password FROM user u
+                 where (`email` = '$this->email' AND `phoneNumber` = '$this->phoneNumber' AND `password` = '$passwordHash')";
+
+            if (!empty($conn->query($selectQuery))) {
+                header('Location: http://localhost/ETEC_FINAL/public/src/views/index.php');
+            }
+        } else {
+            echo '<script>alert("please fill in field correct!!")</script>';
         }
     }
 }
@@ -50,7 +68,11 @@ try {
         $confirmPassword = $_POST['confirmPassword'];
 
         $user = new User($firstName, $lastName, $email, $phoneNumber, $password, $confirmPassword);
-        $user->register();
+        if (isset($_POST['SignUp'])) {
+            $user->register();
+        } else {
+            $user->signIn();
+        }
     }
 } catch (Exception $e) {
     header('Location: header.php');

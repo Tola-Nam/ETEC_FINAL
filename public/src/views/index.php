@@ -139,17 +139,18 @@ require_once('../models/connection.php');
                 $currentCategory = '';
                 $categoryProducts = [];
 
-                // Group products by category
+                //! Group products by category
                 while ($row = mysqli_fetch_assoc($result)) {
                     $categoryProducts[$row['category']][] = $row;
                 }
-
-                // Display each category in a single row
+                //^ Display each category in a single row
                 foreach ($categoryProducts as $category => $products) {
                     echo "<h4 class='text-2xl font-bold text-gray-900 mb-6 mt-8'>" . htmlspecialchars($category) . "</h4>";
                     echo "<div class='category-row'>";
                     foreach ($products as $product) {
-                        echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '" 
+                        // block fashion 
+                        if ($product['category'] === 'fashion') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=fashion" 
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
                                 
                                 <div class="w-full h-64 overflow-hidden">
@@ -167,7 +168,73 @@ require_once('../models/connection.php');
                                     </span>
                                 </div>
                             </a>';
+                        }
+                        // block new fashion 
+                        if ($product['category'] === 'NewFashion') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=NewFashion" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
+                                </div>
+
+                                <div class="p-4">
+                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
+                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                    $' . number_format($product['product_price'], 2) . '
+                                    </span>
+                                </div>
+                            </a>';
+                        }
+                        // block skink care
+                        if ($product['category'] === 'SkinCare') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=SkinCare" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
+                                </div>
+
+                                <div class="p-4">
+                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
+                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                    $' . number_format($product['product_price'], 2) . '
+                                    </span>
+                                </div>
+                            </a>';
+                        }
+                        // block electronics
+                        if ($product['category'] === 'Electronics') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Electronics" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
+                                </div>
+
+                                <div class="p-4">
+                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
+                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                    $' . number_format($product['product_price'], 2) . '
+                                    </span>
+                                </div>
+                            </a>';
+                        }
+
                     }
+
                     echo "</div>"; //! Close category-row
                 }
             } else {

@@ -202,13 +202,13 @@
                 <!-- Action Buttons -->
                 <div class="space-y-4">
                     <button onclick="addToCart()"
-                        class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                        class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
                         Add to Cart
                     </button>
-                    <button
+                    <!-- <button
                         class="w-full border border-gray-300 text-gray-900 py-3 px-6 rounded-lg font-semibold hover:border-gray-900 transition-colors">
                         Add to Wishlist
-                    </button>
+                    </button> -->
                 </div>
 
                 <!-- Product Details -->
@@ -216,7 +216,7 @@
                     <div class="space-y-4">
                         <details class="group">
                             <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900">
+                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
                                 Product Details
                                 <span class="group-open:rotate-180 transition-transform">↓</span>
                             </summary>
@@ -230,7 +230,7 @@
 
                         <details class="group">
                             <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900">
+                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
                                 Size & Fit
                                 <span class="group-open:rotate-180 transition-transform">↓</span>
                             </summary>
@@ -242,7 +242,7 @@
 
                         <details class="group">
                             <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900">
+                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
                                 Care Instructions
                                 <span class="group-open:rotate-180 transition-transform">↓</span>
                             </summary>
@@ -252,6 +252,11 @@
                                 <p>Do not bleach</p>
                             </div>
                         </details>
+                        <button onclick="openModal()"
+                            class="flex justify-between items-center w-100 cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
+                            size guide
+                            <span class="group-open:rotate-180 transition-transform">↓</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -260,54 +265,306 @@
 
     <!-- You May Also Like -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 class="text-2xl font-bold text-gray-900 mb-8">You May Also Like</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="group">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300&h=300&fit=crop&crop=center"
-                        alt="Related product"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                </div>
-                <h3 class="font-semibold text-gray-900">Classic Crew Sweatshirt</h3>
-                <p class="text-gray-600">$39.99</p>
-            </div>
+            <?php
+            require_once('../models/connection.php');
+            $connection = connection();
 
-            <div class="group">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=300&fit=crop&crop=center"
-                        alt="Related product"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                </div>
-                <h3 class="font-semibold text-gray-900">Relaxed Fit Jeans</h3>
-                <p class="text-gray-600">$59.99</p>
-            </div>
+            $code = $_GET['code'] ?? '';
+            $status = $_GET['status'] ?? '';
 
-            <div class="group">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=300&h=300&fit=crop&crop=center"
-                        alt="Related product"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                </div>
-                <h3 class="font-semibold text-gray-900">Lightweight Hoodie</h3>
-                <p class="text-gray-600">$44.99</p>
-            </div>
+            $selectedCategory = "SELECT product_code, product_title, product_price, product_thumbnail, category FROM goods";
 
-            <div class="group">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <img src="https://images.unsplash.com/photo-1506629905607-d5b967e56db5?w=300&h=300&fit=crop&crop=center"
-                        alt="Related product"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                </div>
-                <h3 class="font-semibold text-gray-900">Cotton Chino Pants</h3>
-                <p class="text-gray-600">$49.99</p>
-            </div>
+            if ($Query = $connection->query($selectedCategory)) {
+                while ($row = mysqli_fetch_assoc($Query)) {
+                    if (!empty($status)) {
+                        if (
+                            ($status == "fashion" && $row['category'] === 'fashion') ||
+                            ($status == "NewFashion" && $row['category'] === 'NewFashion') ||
+                            ($status == "Electronics" && $row['category'] === 'Electronics') ||
+                            ($status == "SkinCare" && $row['category'] === 'SkinCare')
+                        ) {
+                            echo '<a href="./product.php?code=' . urlencode($row['product_code']) . '&status=fashion$status=NewFashion$status=Electronics&status=SkinCare" class="group">
+                                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
+                                        <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($row['product_thumbnail']) . '"
+                                            alt="Related product"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                    </div>
+                                    <h3 class="font-semibold text-gray-900">' . htmlspecialchars($row['product_title']) . '</h3>
+                                    <p class="text-gray-600">$' . number_format($row['product_price'], 2) . '</p>
+                                </a>';
+                        }
+                    }
+                }
+            } else {
+                echo '<script>alert("not found in system!!!")</script>';
+            }
+            ?>
         </div>
     </section>
-
     <!-- Footer -->
     <?php require_once('../include/footer.php') ?>
 
     <script src="../controllers/productRoute.js"></script>
-</body>
 
-</html>
+    <!-- modal -->
+    <div id="sizeGuide"
+        class="fixed inset-0 z-100 w-100 hidden flex items-center justify-center bg-black bg-opacity-50">
+        <!-- Modal Dialog -->
+        <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg w-full max-w-md p-6 relative">
+            <button onclick="closeModal()" id="close" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                <i class="bi bi-x-circle-fill text-2xl"></i>
+            </button>
+            <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg">
+                <!-- Header Section -->
+                <div class="bg-white p-6 border-b border-gray-200 rounded-t-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            Enter your height and weight
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 items-end">
+                        <div class="flex-1 min-w-32">
+                            <label class="block text-sm font-medium text-gray-600 mb-2">Height (cm)</label>
+                            <input type="number" id="height-input" placeholder="only 175" min="140" max="180"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                        </div>
+                        <div class="flex-1 min-w-32">
+                            <label class="block text-sm font-medium text-gray-600 mb-2">Weight (kg)</label>
+                            <input type="number" id="weight-input" placeholder=" only 75" min="35" max="80"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                        </div>
+                        <button onclick="highlightSize()"
+                            class="bg-gray-900 text-white px-8 py-2 rounded-md hover:bg-gray-800 transition-colors font-medium">
+                            Apply
+                        </button>
+                    </div>
+
+                    <!-- Result Display -->
+                    <div id="result-display" class="mt-4 p-3 bg-gray-100 rounded-md hidden">
+                        <p class="text-sm font-medium text-gray-700">
+                            <span class="text-blue-600">Your recommended size:</span>
+                            <span id="size-result" class="font-bold text-lg"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="p-6">
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Height</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <!-- Header Row with Weight Values -->
+                            <thead>
+                                <tr>
+                                    <th class="w-20 p-2 text-xs font-medium text-gray-600"></th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">40-42
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">43-44
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">45-47
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">48-49
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">50-52
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">53-54
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">55-57
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">58-59
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">60-62
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">63-64
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">65-67
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">68-69
+                                    </th>
+                                    <th class="p-2 text-xs font-medium text-gray-600 border-l border-gray-200">70-75
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="size-chart-body">
+                                <!-- Height rows -->
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">173-175</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XL</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">170-172</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XL</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">168-169</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XL</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">165-167</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200"></td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">163-164</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">161-162</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">158-160</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">155-157</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">153-154</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                                <tr class="border-t border-gray-200">
+                                    <td class="p-2 text-xs font-medium text-gray-600 bg-gray-50">149-152</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">XS</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">S</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">M</td>
+                                    <td class="p-2 text-center text-xs font-medium border-l border-gray-200">L</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-6 text-right">
+                        <span class="text-sm font-medium text-gray-800">Weight</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-2 mt-3">
+                <button type="button" onclick="closeModal()"
+                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
+                    <i class="bi bi-x-circle me-2"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../controllers/productModal.js"></script>
