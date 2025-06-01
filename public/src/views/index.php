@@ -152,41 +152,48 @@ require_once('../models/connection.php');
                         if ($product['category'] === 'fashion') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=fashion" 
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
-                                
                                 <div class="w-full h-64 overflow-hidden">
                                     <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
                                         class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                                         alt="' . htmlspecialchars($product['product_title']) . '"
                                         loading="lazy">
                                 </div>
-
                                 <div class="p-4">
-                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
-                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
-                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    $' . number_format($product['product_price'], 2) . '
-                                    </span>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>
                             </a>';
                         }
                         // block new fashion 
                         if ($product['category'] === 'NewFashion') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=NewFashion" 
-                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
-                                
-                                <div class="w-full h-64 overflow-hidden">
-                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">             
+                               <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
                                         class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        alt="' . $product['product_title'] . '"
                                         loading="lazy">
-                                </div>
-
-                                <div class="p-4">
-                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
-                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
-                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    $' . number_format($product['product_price'], 2) . '
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
                                     </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>
                             </a>';
                         }
@@ -194,20 +201,26 @@ require_once('../models/connection.php');
                         if ($product['category'] === 'SkinCare') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=SkinCare" 
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
-                                
-                                <div class="w-full h-64 overflow-hidden">
-                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
                                         class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        alt="' . $product['product_title'] . '"
                                         loading="lazy">
-                                </div>
-
-                                <div class="p-4">
-                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
-                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
-                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    $' . number_format($product['product_price'], 2) . '
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
                                     </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                            class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>
                             </a>';
                         }
@@ -215,40 +228,47 @@ require_once('../models/connection.php');
                         if ($product['category'] === 'Electronics') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Electronics" 
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
-                                
-                                <div class="w-full h-64 overflow-hidden">
-                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                               <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
                                         class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        alt="' . $product['product_title'] . '"
                                         loading="lazy">
-                                </div>
-
-                                <div class="p-4">
-                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
-                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
-                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    $' . number_format($product['product_price'], 2) . '
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
                                     </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span  class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>
                             </a>';
                         }
                         if ($product['category'] === 'Shoes') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Shoes" 
-                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
-                                
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">   
                                 <div class="w-full h-64 overflow-hidden">
+                                 <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded">' . $product['discount'] . '%OFF</span>
                                     <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
                                         class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                                         alt="' . htmlspecialchars($product['product_title']) . '"
                                         loading="lazy">
                                 </div>
-
                                 <div class="p-4">
-                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
-                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
-                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    $' . number_format($product['product_price'], 2) . '
-                                    </span>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>
                             </a>';
                         }
@@ -263,6 +283,40 @@ require_once('../models/connection.php');
             ?>
         </div>
     </div>
+    <!-- for discount product -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(card => {
+                // Use getElementById or querySelector with # for IDs, not class selectors
+                const priceElement = card.querySelector('#productPrice');
+                const discountElement = card.querySelector('#percentDiscount');
+                const discountedPriceElement = card.querySelector('.productDiscount');
+
+                if (priceElement && discountElement && discountedPriceElement) {
+                    const priceText = priceElement.innerText.replace('$', '');
+                    const discountText = discountElement.innerText.replace('%OFF', '');
+
+                    const price = parseFloat(priceText);
+                    const percent = parseFloat(discountText);
+
+                    // Check if both values are valid numbers and percent is greater than 0
+                    if (!isNaN(price) && !isNaN(percent) && percent > 0) {
+                        const discounted = price - (price * percent) / 100;
+                        discountedPriceElement.innerText = `$${discounted.toFixed(2)}`;
+                        // discountElement.classList.remove('hidden');
+                    } else {
+                        // If no valid discount, hide the discount elements and show original price
+                        discountElement.classList.add('hidden');
+                        priceElement.classList.remove('line-through');
+                        discountedPriceElement.innerText = `$${price.toFixed(2)}`;
+                    }
+                }
+            });
+        });
+
+    </script>
 
     <!-- Simplified JavaScript (No Swiper) -->
     <script>

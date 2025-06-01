@@ -133,7 +133,6 @@
                             </h1>
                             <!-- <p class="text-xl text-gray-600 mt-2">Essential wardrobe staple</p> -->
                         </div>
-
                         <div class="flex items-center space-x-4">
                             <span id="productDiscount"
                                 class="bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
@@ -238,8 +237,6 @@
                         $QueryProduct = $connection->query($getDetail);
                         if ($code) {
                             if ($result = mysqli_fetch_assoc($QueryProduct)) {
-
-
                                 ?>
                                 <details class="group">
                                     <summary
@@ -278,42 +275,52 @@
 
     <!-- You May Also Like -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <?php
-            require_once('../models/connection.php');
-            $connection = connection();
+        <div class="overflow-x-auto">
+            <div class="flex space-x-4 min-w-max">
+                <?php
+                require_once('../models/connection.php');
+                $connection = connection();
+                $code = $_GET['code'] ?? '';
+                $status = $_GET['status'] ?? '';
 
-            $code = $_GET['code'] ?? '';
-            $status = $_GET['status'] ?? '';
+                $selectedCategory = "SELECT product_code, product_title, product_price, product_thumbnail, category FROM goods ORDER BY sale_count DESC";
 
-            $selectedCategory = "SELECT product_code, product_title, product_price, product_thumbnail, category FROM goods ORDER BY sale_count DESC";
-
-            if ($Query = $connection->query($selectedCategory)) {
-                while ($row = mysqli_fetch_assoc($Query)) {
-                    if (!empty($status)) {
-                        if (
-                            ($status == "fashion" && $row['category'] === 'fashion') ||
-                            ($status == "NewFashion" && $row['category'] === 'NewFashion') ||
-                            ($status == "Electronics" && $row['category'] === 'Electronics') ||
-                            ($status == "SkinCare" && $row['category'] === 'SkinCare') ||
-                            ($status == "Shoes" && $row['category'] === 'Shoes')
-                        ) {
-                            echo '<a href="./product.php?code=' . urlencode($row['product_code']) . '&status=' . urlencode($status) . '" class="group">
-                                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                                        <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($row['product_thumbnail']) . '"
-                                            alt="Related product"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                                    </div>
-                                    <h3 class="font-semibold text-gray-900">' . htmlspecialchars($row['product_title']) . '</h3>
-                                    <p class="text-gray-600">$' . number_format($row['product_price'], 2) . '</p>
-                                </a>';
+                if ($Query = $connection->query($selectedCategory)) {
+                    while ($row = mysqli_fetch_assoc($Query)) {
+                        if (!empty($status)) {
+                            if (
+                                ($status == "fashion" && $row['category'] === 'fashion') ||
+                                ($status == "NewFashion" && $row['category'] === 'NewFashion') ||
+                                ($status == "Electronics" && $row['category'] === 'Electronics') ||
+                                ($status == "SkinCare" && $row['category'] === 'SkinCare') ||
+                                ($status == "Shoes" && $row['category'] === 'Shoes')
+                            ) {
+                                echo '<a href="./product.php?code=' . urlencode($row['product_code']) . '&status=' . $status . '" 
+                                        class="w-full max-w-sm bg-white rounded-lg shadow overflow-hidden flex flex-col" style="height: 400px;">
+                                        <!-- Image Section -->
+                                        <div class="relative w-full h-[300px] bg-gray-100">
+                                            <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($row['product_thumbnail']) . '"
+                                                alt="' . htmlspecialchars($row['product_title']) . '"
+                                                class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                                        </div>
+                                        <!-- Text Content -->
+                                        <div class="px-4 py-2">
+                                            <p class="text-green-800 text-base font-semibold mb-1">
+                                                $' . number_format($row['product_price'], 2) . '
+                                            </p>
+                                            <h3 class="text-gray-900 text-base font-semibold leading-snug break-words line-clamp-2">
+                                                ' . htmlspecialchars($row['product_title']) . '
+                                            </h3>
+                                        </div>
+                                    </a>';
+                            }
                         }
                     }
+                } else {
+                    echo '<script>alert("not found in system!!!")</script>';
                 }
-            } else {
-                echo '<script>alert("not found in system!!!")</script>';
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </section>
     <!-- Footer -->
