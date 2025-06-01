@@ -61,76 +61,95 @@
 </head>
 
 <body class="bg-white">
-    <!-- Loading Screen -->
-    <div id="loading-screen"
-        class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center text-white z-50">
-        <div class="w-12 h-12 border-4 border-gray-600 border-t-emerald-500 rounded-full loader mb-4"></div>
-        <p class="text-lg">Loading, please wait...</p>
-    </div>
+
     <!-- Header -->
     <?php require_once('../include/header.php') ?>
-    <!-- Breadcrumb -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <nav class="text-sm text-gray-500">
-            <a href="#" class="hover:text-gray-700">Home</a> /
-            <a href="#" class="hover:text-gray-700">Men</a> /
-            <span class="text-gray-900">Basic Cotton T-Shirt</span>
-        </nav>
-    </div>
-
     <!-- Main Product Section -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <!-- Product Images -->
             <div class="space-y-4">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                    <img id="mainImage"
-                        src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&crop=center"
+                <?php
+                require_once('../models/connection.php');
+                $connection = connection();
+                $code = $_GET['code'];
+                if (isset($code)) {
+                    $getProduct = " SELECT product_thumbnail FROM goods where product_code = '$code';";
+                    $items = $connection->query($getProduct);
+                    if ($row = mysqli_fetch_assoc($items)) {
+                        echo '<div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                        <img id="mainImage"
+                        src="http://localhost/ETEC_FINAL/servers/assets/images/' . $row['product_thumbnail'] . '"
                         alt="Main product image" class="w-full h-full object-cover" />
-                </div>
+                        </div>';
+                    }
+                } else {
+                    echo '<script>alert("Product is not found!!!");</script>';
+                }
+                ?>
                 <div class="grid grid-cols-4 gap-4">
-                    <button
-                        onclick="changeImage('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop&crop=center')"
-                        class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-900">
-                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=150&h=150&fit=crop&crop=center"
-                            alt="Product view 1" class="w-full h-full object-cover" />
-                    </button>
-                    <button
-                        onclick="changeImage('https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=600&fit=crop&crop=center')"
-                        class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-gray-300">
-                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=150&h=150&fit=crop&crop=center"
-                            alt="Product view 2" class="w-full h-full object-cover" />
-                    </button>
-                    <button
-                        onclick="changeImage('https://images.unsplash.com/photo-1583743814966-8936f37f652?w=600&h=600&fit=crop&crop=center')"
-                        class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-gray-300">
-                        <img src="https://images.unsplash.com/photo-1583743814966-8936f37f652?w=150&h=150&fit=crop&crop=center"
-                            alt="Product view 3" class="w-full h-full object-cover" />
-                    </button>
-                    <button
-                        onclick="changeImage('https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop&crop=center')"
-                        class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-transparent hover:border-gray-300">
-                        <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=150&h=150&fit=crop&crop=center"
-                            alt="Product view 4" class="w-full h-full object-cover" />
-                    </button>
+                    <?php
+                    require_once('../models/connection.php');
+                    $connection = connection();
+
+                    // Check and sanitize 'status' from GET
+                    $status = isset($_GET['status']) ? mysqli_real_escape_string($connection, $_GET['status']) : '';
+
+                    if ($status) {
+                        // Corrected query: replace 'your_table_name' with actual table name
+                        $QueryProduct = "SELECT product_thumbnail FROM goods WHERE category = '$status' LIMIT 4";
+                        $routerProduct = $connection->query($QueryProduct);
+
+                        while ($row = mysqli_fetch_assoc($routerProduct)) {
+                            $thumbnail = htmlspecialchars($row['product_thumbnail']);
+                            $imagePath = "http://localhost/ETEC_FINAL/servers/assets/images/" . $thumbnail;
+
+                            echo '<button onclick="changeImage(\'' . $imagePath . '\')"
+                                    class="aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-900">
+                                    <img src="' . $imagePath . '?' . $code . '"
+                                        alt="Product view" class="w-full h-full object-cover" />
+                                </button>';
+                        }
+                    }
+                    ?>
                 </div>
             </div>
 
             <!-- Product Info -->
             <div class="space-y-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">
-                        Premium Cotton Basic T-Shirt
-                    </h1>
-                    <p class="text-xl text-gray-600 mt-2">Essential wardrobe staple</p>
-                </div>
+                <?php
+                require_once('../models/connection.php');
+                $connection = connection();
+                $code = $_GET['code'];
+                if ($code) {
 
-                <div class="flex items-center space-x-4">
-                    <span class="text-2xl font-bold text-gray-900">$24.99</span>
-                    <span class="text-lg text-gray-500 line-through">$34.99</span>
-                    <span class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded">30% OFF</span>
-                </div>
+                    $getinfo = " SELECT product_title,product_price,discount FROM goods where product_code='$code'";
+                    $QueryInfo = $connection->query($getinfo);
+                    if ($row = mysqli_fetch_assoc($QueryInfo)) {
+                        ?>
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">
+                                <?php echo $row['product_title'] ?>
+                            </h1>
+                            <!-- <p class="text-xl text-gray-600 mt-2">Essential wardrobe staple</p> -->
+                        </div>
 
+                        <div class="flex items-center space-x-4">
+                            <span id="productDiscount"
+                                class="bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                            <span id="productPrice"
+                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$<?php echo $row['product_price'] ?></span>
+                            <span id="percentDiscount"
+                                class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded"><?php echo $row['discount'] ?>%
+                                OFF</span>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    echo '<script>alert("product is not found in system!!!");</script>';
+                }
+
+                ?>
                 <!-- Color Selection -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Color</h3>
@@ -205,54 +224,48 @@
                         class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
                         Add to Cart
                     </button>
-                    <!-- <button
-                        class="w-full border border-gray-300 text-gray-900 py-3 px-6 rounded-lg font-semibold hover:border-gray-900 transition-colors">
-                        Add to Wishlist
-                    </button> -->
                 </div>
 
                 <!-- Product Details -->
                 <div class="border-t pt-6">
                     <div class="space-y-4">
-                        <details class="group">
-                            <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
-                                Product Details
-                                <span class="group-open:rotate-180 transition-transform">↓</span>
-                            </summary>
-                            <div class="mt-4 text-gray-600 space-y-2">
-                                <p>Premium 100% cotton construction</p>
-                                <p>Pre-shrunk for lasting fit</p>
-                                <p>Reinforced seams for durability</p>
-                                <p>Classic crew neck design</p>
-                            </div>
-                        </details>
+                        <?php
+                        require_once('../models/connection.php');
+                        $connection = connection();
+                        $code = $_GET['code'];
 
+                        $getDetail = " SELECT product_description FROM goods WHERE product_code = '$code'";
+                        $QueryProduct = $connection->query($getDetail);
+                        if ($code) {
+                            if ($result = mysqli_fetch_assoc($QueryProduct)) {
+
+
+                                ?>
+                                <details class="group">
+                                    <summary
+                                        class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-600">
+                                        Product Details
+                                        <span class="group-open:rotate-180 transition-transform">↓</span>
+                                    </summary>
+                                    <div class="mt-4 text-gray-600 space-y-2">
+                                        <p class="hover:bg-gray-400 rounded"> Code <?php echo $code ?></p>
+                                        <p class="hover:bg-gray-400 rounded"><?php echo $result['product_description'] ?></p>
+                                    </div>
+                                </details>
+                            <?php }
+                        } ?>
                         <details class="group">
                             <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
+                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-600">
                                 Size & Fit
                                 <span class="group-open:rotate-180 transition-transform">↓</span>
                             </summary>
                             <div class="mt-4 text-gray-600">
-                                <p>Regular fit through body and sleeves</p>
-                                <p>Model is 6'2" and wears size M</p>
+                                <p class="hover:bg-gray-400 rounded">Regular fit through body and sleeves</p>
+                                <p id="sizeProduct" class="hover:bg-gray-400 rounded"></p>
                             </div>
                         </details>
-
-                        <details class="group">
-                            <summary
-                                class="flex justify-between items-center cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
-                                Care Instructions
-                                <span class="group-open:rotate-180 transition-transform">↓</span>
-                            </summary>
-                            <div class="mt-4 text-gray-600">
-                                <p>Machine wash cold with like colors</p>
-                                <p>Tumble dry low</p>
-                                <p>Do not bleach</p>
-                            </div>
-                        </details>
-                        <button onclick="openModal()"
+                        <button onclick="openSizeGuide()"
                             class="flex justify-between items-center w-100 cursor-pointer font-semibold text-gray-900 hover:bg-gray-700">
                             size guide
                             <span class="group-open:rotate-180 transition-transform">↓</span>
@@ -273,7 +286,7 @@
             $code = $_GET['code'] ?? '';
             $status = $_GET['status'] ?? '';
 
-            $selectedCategory = "SELECT product_code, product_title, product_price, product_thumbnail, category FROM goods";
+            $selectedCategory = "SELECT product_code, product_title, product_price, product_thumbnail, category FROM goods ORDER BY sale_count DESC";
 
             if ($Query = $connection->query($selectedCategory)) {
                 while ($row = mysqli_fetch_assoc($Query)) {
@@ -282,9 +295,10 @@
                             ($status == "fashion" && $row['category'] === 'fashion') ||
                             ($status == "NewFashion" && $row['category'] === 'NewFashion') ||
                             ($status == "Electronics" && $row['category'] === 'Electronics') ||
-                            ($status == "SkinCare" && $row['category'] === 'SkinCare')
+                            ($status == "SkinCare" && $row['category'] === 'SkinCare') ||
+                            ($status == "Shoes" && $row['category'] === 'Shoes')
                         ) {
-                            echo '<a href="./product.php?code=' . urlencode($row['product_code']) . '&status=fashion$status=NewFashion$status=Electronics&status=SkinCare" class="group">
+                            echo '<a href="./product.php?code=' . urlencode($row['product_code']) . '&status=' . urlencode($status) . '" class="group">
                                     <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
                                         <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($row['product_thumbnail']) . '"
                                             alt="Related product"
@@ -304,15 +318,34 @@
     </section>
     <!-- Footer -->
     <?php require_once('../include/footer.php') ?>
+    <script>
+        // function for discount product
+        const productPrice = parseFloat(
+            document.getElementById("productPrice").innerText.replace("$", ""));
+        const percentDiscount = parseFloat(
+            document.getElementById("percentDiscount").innerText.replace("% OFF", ""));
+
+        if (!isNaN(productPrice) && !isNaN(percentDiscount)) {
+            const Discount = productPrice - (productPrice * percentDiscount) / 100;
+            document.getElementById("productDiscount").innerText = `$${Discount.toFixed(2)}`;
+        }
+
+        const selectedText = document.getElementById('selectedSize').textContent.trim();
+        const size = selectedText.split(':')[1].trim();
+        if (size == 'M' || size == 'XS' || size == 'S' || size == 'L' || size == 'XL' || size == 'XXL') {
+            document.getElementById('sizeProduct').textContent = `Model is 6'2" and wears size ${size}`;
+        }
+    </script>
 
     <script src="../controllers/productRoute.js"></script>
 
-    <!-- modal -->
+    <!-- modal openSizeGuide -->
     <div id="sizeGuide"
         class="fixed inset-0 z-100 w-100 hidden flex items-center justify-center bg-black bg-opacity-50">
         <!-- Modal Dialog -->
-        <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg w-full max-w-md p-6 relative">
-            <button onclick="closeModal()" id="close" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+        <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg max-w-md p-6 relative">
+            <button onclick="closeSizeGuide()" id="close"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
                 <i class="bi bi-x-circle-fill text-2xl"></i>
             </button>
             <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg">
@@ -559,7 +592,7 @@
             </div>
             <!-- Modal Footer -->
             <div class="flex justify-end gap-2 mt-3">
-                <button type="button" onclick="closeModal()"
+                <button type="button" onclick="closeSizeGuide()"
                     class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
                     <i class="bi bi-x-circle me-2"></i> Cancel
                 </button>
@@ -567,4 +600,26 @@
         </div>
     </div>
 
+
+    <!-- modal for check out -->
+    <div id="sizeGuide"
+        class="fixed inset-0 z-100 w-100 hidden flex items-center justify-center bg-black bg-opacity-50">
+        <!-- Modal Dialog -->
+        <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg max-w-md p-6 relative">
+            <button onclick="closeSizeGuide()" id="close"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+                <i class="bi bi-x-circle-fill text-2xl"></i>
+            </button>
+            <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg">
+                <!-- Header Section -->
+                <div class="bg-white p-6 border-b border-gray-200 rounded-t-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            Enter your height and weight
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../controllers/productModal.js"></script>

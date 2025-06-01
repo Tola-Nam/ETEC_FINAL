@@ -17,28 +17,34 @@
 
         <form id="productForm" enctype="multipart/form-data">
             <!-- Product Title -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="product-title" class="block text-sm font-medium text-gray-700">Product Title</label>
                 <input type="text" name="product_title" id="product-title"
                     class="w-full px-3 py-2 border rounded-lg text-black" required>
             </div>
 
             <!-- Price -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                 <input type="text" name="product_price" id="price" class="w-full px-3 py-2 border rounded-lg text-black"
                     required>
             </div>
 
             <!-- Stock -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
                 <input type="number" name="stock" id="stock" class="w-full px-3 py-2 border rounded-lg text-black"
                     required>
             </div>
+            <!-- discount -->
+            <div class="mb-4">
+                <label for="stock" class="block text-sm font-medium text-gray-700">discount</label>
+                <input type="number" name="discount" id="stock" class="w-full px-3 py-2 border rounded-lg text-black"
+                    required>
+            </div>
 
             <!-- Category -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                 <select name="category" id="category" class="w-full px-3 py-2 border rounded-lg text-black" required>
                     <option value="" disabled selected>Select a category</option>
@@ -50,14 +56,14 @@
             </div>
 
             <!-- Description -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="product_description" id="description"
                     class="w-full px-3 py-2 border rounded-lg text-black" rows="3" required></textarea>
             </div>
 
             <!-- Image Upload -->
-            <div class="mb-4">
+            <div class="mb-2">
                 <label for="product_thumbnail" class="block text-sm font-medium text-gray-700">Product Image</label>
                 <input type="file" name="product_thumbnail" id="product_thumbnail"
                     class="w-full px-3 py-2 border rounded-lg text-black" required>

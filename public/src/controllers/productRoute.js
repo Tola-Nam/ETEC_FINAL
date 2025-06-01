@@ -53,12 +53,15 @@ function selectSize(button, size) {
       "py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900";
   });
 
-  //? Add selection to clicked button
+  // Add selection style to clicked button
   button.className =
     "py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center";
 
-  selectedSize = size;
+  // Update the selectedSize paragraph
   document.getElementById("selectedSize").textContent = `Selected: ${size}`;
+
+  // Update the Models paragraph with the chosen size
+  // document.getElementById("sizeProduct").textContent = `Model is 6'2" and wears size ${size}`;
 }
 
 function changeQuantity(delta) {
@@ -88,12 +91,3 @@ function addToCart() {
     quantity: currentQuantity,
   });
 }
-// ~loading before into website
-setTimeout(() => {
-  document.getElementById("loading-screen").style.display = "none";
-  const mainContent = document.getElementById("main-content");
-  mainContent.style.display = "block";
-  //! Force reflowing then add loaded class for smooth fade-in
-  mainContent.offsetHeight;
-  mainContent.classList.add("loaded");
-}, 800);

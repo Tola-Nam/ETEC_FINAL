@@ -132,7 +132,7 @@ require_once('../models/connection.php');
             $connection = connection();
 
             // Fetch all goods ordered by category
-            $getter = "SELECT * FROM `goods` ORDER BY `category` DESC";
+            $getter = "SELECT * FROM goods";
             $result = $connection->query($getter);
 
             if ($result && $result->num_rows > 0) {
@@ -214,6 +214,26 @@ require_once('../models/connection.php');
                         // block electronics
                         if ($product['category'] === 'Electronics') {
                             echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Electronics" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
+                                </div>
+
+                                <div class="p-4">
+                                    <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                    <p class="text-gray-600 text-sm mb-3">' . htmlspecialchars($product['product_description']) . '</p>
+                                    <span class="inline-block bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                    $' . number_format($product['product_price'], 2) . '
+                                    </span>
+                                </div>
+                            </a>';
+                        }
+                        if ($product['category'] === 'Shoes') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Shoes" 
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
                                 
                                 <div class="w-full h-64 overflow-hidden">

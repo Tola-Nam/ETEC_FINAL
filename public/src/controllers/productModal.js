@@ -117,10 +117,10 @@ document.addEventListener("keypress", function (e) {
   }
 });
 
-function openModal() {
+function openSizeGuide() {
   document.getElementById("sizeGuide").classList.remove("hidden");
 }
 
-function closeModal() {
+function closeSizeGuide() {
   document.getElementById("sizeGuide").classList.add("hidden");
 }
