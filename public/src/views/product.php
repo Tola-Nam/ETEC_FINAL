@@ -18,7 +18,6 @@
             },
         };
     </script>
-
     <style>
         /* Custom animations and styles */
         @keyframes spin {
@@ -219,7 +218,7 @@
 
                 <!-- Action Buttons -->
                 <div class="space-y-4">
-                    <button onclick="addToCart()"
+                    <button onclick="addToCart(event)"
                         class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
                         Add to Cart
                     </button>
@@ -606,26 +605,119 @@
             </div>
         </div>
     </div>
+    <!-- Modal Backdrop -->
+    <div id="ModalCheckOut"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50 hidden min-h-screen ">
 
-
-    <!-- modal for check out -->
-    <div id="sizeGuide"
-        class="fixed inset-0 z-100 w-100 hidden flex items-center justify-center bg-black bg-opacity-50">
-        <!-- Modal Dialog -->
+        <!-- Modal Container -->
         <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg max-w-md p-6 relative">
-            <button onclick="closeSizeGuide()" id="close"
-                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+
+            <!-- Close Button -->
+            <button onclick="CloseModal(event)" id="close" type="button"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
                 <i class="bi bi-x-circle-fill text-2xl"></i>
             </button>
-            <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-lg">
-                <!-- Header Section -->
-                <div class="bg-white p-6 border-b border-gray-200 rounded-t-lg">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">
-                            Enter your height and weight
-                        </h2>
+            <!-- Product Section -->
+            <div class="p-6">
+                <div class="flex gap-4 mb-6">
+                    <!-- Product Image -->
+                    <div class="w-20 h-28 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div class="w-14 h-20 bg-black rounded"></div>
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h2 class="text-lg font-medium text-gray-900 pr-2">
+                                Relaxed Fit Cargo Trouser
+                            </h2>
+                            <button class="p-1 text-gray-400 hover:text-gray-600">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <p class="text-sm text-gray-600 mb-3">Code. 4122406209 - Black</p>
+
+                        <!-- Size and Quantity Selection -->
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Size</label>
+                                <select
+                                    class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black">
+                                    <option>M</option>
+                                    <option>S</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1">Quantity</label>
+                                <select
+                                    class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Stock Status -->
+                        <div class="text-right mb-3">
+                            <p class="text-sm text-red-500 font-medium">2 Left in stock</p>
+                        </div>
+
+                        <!-- Pricing -->
+                        <div class="text-right space-y-1">
+                            <p class="text-sm text-gray-500 line-through">US $27.95</p>
+                            <p class="text-sm text-gray-600">(40% off) -US $11.18</p>
+                            <p class="text-lg font-semibold text-red-500">US $16.77</p>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Move to Wishlist Button -->
+                <button
+                    class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    Move to wishlist
+                </button>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="border-t bg-gray-50 p-6">
+                <div class="space-y-3 mb-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-900 font-medium">Total</span>
+                        <span class="text-gray-900 font-medium">US $27.95</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Save</span>
+                        <span class="text-green-600 font-medium">-US $11.18</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Delivery fee</span>
+                        <span class="text-gray-900">US $1.25</span>
+                    </div>
+                    <hr class="border-gray-300" />
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-lg font-semibold text-gray-900">Amount to pay</span>
+                        <span class="text-lg font-semibold text-gray-900">US $18.02</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Button -->
+                <button
+                    class="w-full bg-black text-white py-4 rounded-lg font-medium text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-gray-300">
+                    Proceed to Checkout
+                </button>
             </div>
         </div>
     </div>

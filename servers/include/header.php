@@ -109,7 +109,7 @@ if (isset($_GET['ajax'])) {
             <i class="bi bi-receipt-cutoff me-2"></i><span class="sidebar-text">InvoiceReport</span>
         </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="analytics">
-            <i class="bi bi-graph-up me-2"></i><span class="sidebar-text">Analytics</span>
+            <i class="bi bi-grid me-2"></i><span class="sidebar-text">Product</span>
         </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="form">
             <i class="bi bi-ui-checks me-2"></i><span class="sidebar-text">Form</span>

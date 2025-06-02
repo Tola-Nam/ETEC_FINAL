@@ -72,17 +72,16 @@ function changeQuantity(delta) {
   }
 }
 
-function addToCart() {
-  // ~Simulate adding to cart
+function addToCart(event) {
   const button = event.target;
   const originalText = button.textContent;
 
   button.textContent = "Added!";
-  button.className = button.className.replace("bg-gray-900", "bg-green-600");
+  button.classList.replace("bg-gray-900", "bg-green-600");
 
   setTimeout(() => {
     button.textContent = originalText;
-    button.className = button.className.replace("bg-green-600", "bg-gray-900");
+    button.classList.replace("bg-green-600", "bg-gray-900");
   }, 2000);
 
   console.log("Added to cart:", {
@@ -90,4 +89,9 @@ function addToCart() {
     size: selectedSize,
     quantity: currentQuantity,
   });
+
+  document.getElementById("ModalCheckOut").classList.remove("hidden");
+}
+function CloseModal(event) {
+  document.getElementById("ModalCheckOut").classList.add("hidden");
 }

@@ -48,10 +48,10 @@
                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                 <select name="category" id="category" class="w-full px-3 py-2 border rounded-lg text-black" required>
                     <option value="" disabled selected>Select a category</option>
-                    <option value="electronics">NewFashion</option>
-                    <option value="fashion">Electronics</option>
-                    <option value="home">Shoes</option>
-                    <option value="beauty">SkinCare</option>
+                    <option value="NewFashion">NewFashion</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="SkinCare">SkinCare</option>
                 </select>
             </div>
 

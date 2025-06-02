@@ -274,7 +274,6 @@ require_once('../models/connection.php');
                         }
 
                     }
-
                     echo "</div>"; //! Close category-row
                 }
             } else {
