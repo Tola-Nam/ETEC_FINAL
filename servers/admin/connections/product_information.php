@@ -23,14 +23,14 @@ function upload_product_thumbnail($source_file): string
 if (!class_exists('Product_information')) {
     class Product_information
     {
-        private $product_title;
-        private $product_price;
-        private $stock;
-        private $discount;
-        private $category;
-        private $product_description;
-        private $filename;
-        private $Admin_id;
+        protected $product_title;
+        protected $product_price;
+        protected $stock;
+        protected $discount;
+        protected $category;
+        protected $product_description;
+        protected $filename;
+        protected $Admin_id;
 
         public function __construct($product_title, $product_price, $stock, $discount, $category, $product_description, $filename, $Admin_id)
         {
@@ -69,11 +69,49 @@ if (!class_exists('Product_information')) {
             }
         }
     }
+
+    class UpdateProduct extends product_information
+    {
+        private $product_code;
+
+        public function __construct($product_title, $product_price, $stock, $discount, $category, $product_description, $filename, $Admin_id, $product_code)
+        {
+            parent::__construct($product_title, $product_price, $stock, $discount, $category, $product_description, $filename, $Admin_id);
+            $this->product_code = $product_code;
+        }
+
+        public function updateProduct(): void
+        {
+            $connection = connection_database();
+
+            $updateProduct = "UPDATE goods SET 
+            product_title = '$this->product_title',
+            product_price = '$this->product_price',
+            stock = '$this->stock',
+            discount = '$this->discount',
+            category = '$this->category',
+            product_description = '$this->product_description',
+            product_thumbnail = '$this->filename'
+            WHERE product_code = '$this->product_code'";
+
+            $result = mysqli_query($connection, $updateProduct);
+
+            if ($result) {
+                // echo "Product updated successfully.";
+                header('Location: http://localhost/ETEC_FINAL/servers/include/header.php?page=updateProduct');
+            } else {
+                echo "Error updating product: " . mysqli_error($connection);
+            }
+        }
+    }
+
 }
 
 // Handle AJAX request
 try {
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
+        $product_code = $_POST['product_code'] ?? '';
         $product_title = $_POST['product_title'] ?? '';
         $product_price = $_POST['product_price'] ?? '';
         $stock = $_POST['stock'] ?? '';
@@ -85,7 +123,7 @@ try {
         $source_file = $_FILES['product_thumbnail'];
         $filename = upload_product_thumbnail($source_file);
 
-        $product = new Product_information(
+        $product = new UpdateProduct( // not Product_information
             $product_title,
             $product_price,
             $stock,
@@ -93,10 +131,14 @@ try {
             $category,
             $product_description,
             $filename,
-            $Admin_id
+            $Admin_id,
+            $product_code
         );
-
+        // if (!empty($_POST['AddProduct'])) {
         $product->insert_product();
+        // if (!empty($_POST['updateProduct'])) {
+        //     $product->updateProduct();
+        // }
     }
 } catch (Exception $e) {
     http_response_code(500);

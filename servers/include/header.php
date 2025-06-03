@@ -13,7 +13,7 @@ if (empty($_SESSION['Admin_id'])) {
 //~ Handle AJAX route request
 if (isset($_GET['ajax'])) {
     $page = $_GET['page'] ?? 'dashboard';
-    $whitelist = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport'];
+    $whitelist = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport', 'updateProduct'];
     if (in_array($page, $whitelist)) {
         //? Start output buffering to capture all output including any JavaScript
         ob_start();
@@ -110,6 +110,9 @@ if (isset($_GET['ajax'])) {
         </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="analytics">
             <i class="bi bi-grid me-2"></i><span class="sidebar-text">Product</span>
+        </a>
+        <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="updateProduct">
+            <i class="bi bi-grid me-2"></i><span class="sidebar-text">updateProduct</span>
         </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="form">
             <i class="bi bi-ui-checks me-2"></i><span class="sidebar-text">Form</span>
@@ -317,7 +320,3 @@ if (isset($_GET['ajax'])) {
             }
         });
     </script>
-
-</body>
-
-</html>
