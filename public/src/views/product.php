@@ -120,6 +120,7 @@
                 require_once('../models/connection.php');
                 $connection = connection();
                 $code = $_GET['code'];
+                $status = $_GET['status'];
                 if ($code) {
 
                     $getinfo = " SELECT product_title,product_price,discount FROM goods where product_code='$code'";
@@ -148,58 +149,115 @@
                 }
 
                 ?>
-                <!-- Color Selection -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Color</h3>
-                    <div class="flex space-x-3">
-                        <button onclick="selectColor(this, 'white')"
-                            class="w-10 h-10 bg-white border-2 border-gray-900 rounded-full"></button>
-                        <button onclick="selectColor(this, 'black')"
-                            class="w-10 h-10 bg-black border-2 border-transparent rounded-full hover:border-gray-300"></button>
-                        <button onclick="selectColor(this, 'gray')"
-                            class="w-10 h-10 bg-gray-500 border-2 border-transparent rounded-full hover:border-gray-300"></button>
-                        <button onclick="selectColor(this, 'navy')"
-                            class="w-10 h-10 bg-blue-900 border-2 border-transparent rounded-full hover:border-gray-300"></button>
+                <?php
+                $status = $_GET['status'];
+                if ($status == "NewFashion" || $status == "Shoes") {
+                    ?>
+                    <!-- Color Selection -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Color</h3>
+                        <div class="flex space-x-3">
+                            <button onclick="selectColor(this, 'white')"
+                                class="w-10 h-10 bg-white border-2 border-gray-900 rounded-full"></button>
+                            <button onclick="selectColor(this, 'black')"
+                                class="w-10 h-10 bg-black border-2 border-transparent rounded-full hover:border-gray-300"></button>
+                            <button onclick="selectColor(this, 'gray')"
+                                class="w-10 h-10 bg-gray-500 border-2 border-transparent rounded-full hover:border-gray-300"></button>
+                            <button onclick="selectColor(this, 'navy')"
+                                class="w-10 h-10 bg-blue-900 border-2 border-transparent rounded-full hover:border-gray-300"></button>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2" id="selectedColor">
+                            Selected: White
+                        </p>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2" id="selectedColor">
-                        Selected: White
-                    </p>
-                </div>
+                    <?php
+                }
+
+                ?>
 
                 <!-- Size Selection -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Size</h3>
-                    <div class="grid grid-cols-4 gap-3">
-                        <button onclick="selectSize(this, 'XS')"
-                            class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
-                            XS
-                        </button>
-                        <button onclick="selectSize(this, 'S')"
-                            class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
-                            S
-                        </button>
-                        <button onclick="selectSize(this, 'M')"
-                            class="py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center">
-                            M
-                        </button>
-                        <button onclick="selectSize(this, 'L')"
-                            class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
-                            L
-                        </button>
-                        <button onclick="selectSize(this, 'XL')"
-                            class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
-                            XL
-                        </button>
-                        <button onclick="selectSize(this, 'XXL')"
-                            class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
-                            XXL
-                        </button>
+                <?php
+                $status = $_GET['status'];
+                if ($status == "NewFashion") {
+                    ?>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Size</h3>
+                        <div class="grid grid-cols-4 gap-3">
+                            <button onclick="selectSize(this, 'XS')"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                XS
+                            </button>
+                            <button onclick="selectSize(this, 'S')"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                S
+                            </button>
+                            <button onclick="selectSize(this, 'M')"
+                                class="py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center">
+                                M
+                            </button>
+                            <button onclick="selectSize(this, 'L')"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                L
+                            </button>
+                            <button onclick="selectSize(this, 'XL')"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                XL
+                            </button>
+                            <button onclick="selectSize(this, 'XXL')"
+                                class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                XXL
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2" id="selectedSize">
+                            Selected: M
+                        </p>
                     </div>
-                    <p class="text-sm text-gray-600 mt-2" id="selectedSize">
-                        Selected: M
-                    </p>
-                </div>
-
+                    <?php
+                } else if ($status == "Shoes") {
+                    ?>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Size</h3>
+                            <div class="grid grid-cols-4 gap-3">
+                                <button onclick="selectSize(this, '36')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    36
+                                </button>
+                                <button onclick="selectSize(this, '37')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    37
+                                </button>
+                                <button onclick="selectSize(this, '38')"
+                                    class="py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center">
+                                    38
+                                </button>
+                                <button onclick="selectSize(this, '39')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    39
+                                </button>
+                                <button onclick="selectSize(this, '40')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    40
+                                </button>
+                                <button onclick="selectSize(this, '41')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    41
+                                </button>
+                                <button onclick="selectSize(this, '42')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    42
+                                </button>
+                                <button onclick="selectSize(this, '43')"
+                                    class="py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900">
+                                    43
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2" id="selectedSize">
+                                Selected: 36
+                            </p>
+                        </div>
+                    <?php
+                }
+                ?>
                 <!-- Quantity -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Quantity</h3>

@@ -130,7 +130,7 @@
                                 require_once('../admin/connections/connection_database.php');
                                 $connection = connection_database();
                                 $Admin_id = $_SESSION['Admin_id'];
-                                $getProduct = " SELECT product_code,product_title,product_price,category,product_thumbnail,discount,sale_count FROM goods WHERE author_id ='$Admin_id'";
+                                $getProduct = " SELECT product_code,product_title,product_price,category,product_thumbnail,discount,sale_count FROM goods WHERE author_id ='$Admin_id' ORDER BY category DESC";
                                 $Query = $connection->query($getProduct);
                                 if (isset($Query)) {
                                     while ($row = mysqli_fetch_assoc($Query)) {
@@ -188,7 +188,7 @@
                                     }
                                 } else {
                                     echo '<script>alert("System is not found!!!");</script>';
-                                        ?>
+                                    ?>
                                     <?php
                                 }
                                 ?>

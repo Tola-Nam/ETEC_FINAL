@@ -95,7 +95,7 @@ $Query = $stmt->get_result();
                 </div>
 
                 <!-- Submit -->
-                <button type="submit" name="updateProduct"
+                <button type="submit" name="product"
                     class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                     Update Product
                 </button>

@@ -98,7 +98,7 @@ if (!class_exists('Product_information')) {
 
             if ($result) {
                 // echo "Product updated successfully.";
-                header('Location: http://localhost/ETEC_FINAL/servers/include/header.php?page=updateProduct');
+                header('Location: http://localhost/ETEC_FINAL/servers/include/header.php?page=analytics');
             } else {
                 echo "Error updating product: " . mysqli_error($connection);
             }
@@ -134,8 +134,12 @@ try {
             $Admin_id,
             $product_code
         );
+        if (isset($_POST['product'])) {
+            $product->updateProduct();
+        } else {
+            $product->insert_product();
+        }
         // if (!empty($_POST['AddProduct'])) {
-        $product->insert_product();
         // if (!empty($_POST['updateProduct'])) {
         //     $product->updateProduct();
         // }

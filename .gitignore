@@ -6,7 +6,7 @@ node_modules/
 .history/
 
 # Build/compiled assets or static directories
-ETEC_FINAL/servers/assets*/
+ETEC_FINAL/servers/assets/
 
 # Node.js config and lock files
 package-lock.json
