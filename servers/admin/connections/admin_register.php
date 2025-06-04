@@ -123,14 +123,13 @@ class admin_signin_account extends Admin_register
                 $QueryImage = $conn->query($UserIcons);
                 if ($QueryImage && $QueryImage->num_rows > 0) {
                     $row = mysqli_fetch_assoc($QueryImage);
-                    $profile = $row['profileImage'] ?? ($row['Gender'] === 'Male' ? "defaultMale.png" : "defaultFemale.png");
+                    $profile = $row['profileImage'] ?? ($row['Gender'] === 'Male' ? "profileMale.png" : "profileFemale.png");
                     // ✅ Store these in session
                     $_SESSION['UserName'] = $row['UserName'];
                     $_SESSION['profileImage'] = $profile;
                 } else {
-                    $_SESSION['profileImage'] = "defaultMale.png";
+                    $_SESSION['profileImage'] = "profileMale.png";
                 }
-
                 header("Location: http://localhost/ETEC_FINAL/servers/include/header.php?message=success");
                 exit;
             } else {

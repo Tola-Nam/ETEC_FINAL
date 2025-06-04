@@ -3,9 +3,8 @@
     <?php
     require_once('../models/connection.php');
     $connection = connection();
-
     // Change this to your desired category
-    $targetCategory = 'fashion';
+    $targetCategory = $_GET['status'];
 
     // Get products only from the specified category
     $orderSelect = "SELECT product_code, product_title, product_price, product_description, product_thumbnail, category 
@@ -23,17 +22,19 @@
         echo '<h2 class="text-2xl font-bold text-gray-800 mb-6">' . htmlspecialchars($targetCategory) . '</h2>';
         echo '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">';
         while ($product = mysqli_fetch_assoc($result)) {
-            ?>
-            <div class="group">
-                <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
-                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/<?php echo htmlspecialchars($product['product_thumbnail']); ?>"
-                        alt="<?php echo htmlspecialchars($product['product_title']); ?>"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            if ($targetCategory == "NewFashion" || $targetCategory == "Shoes" || $targetCategory == "SkinCare" || $targetCategory == "Electronics") {
+                ?>
+                <div class="group">
+                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-4">
+                        <img src="http://localhost/ETEC_FINAL/servers/assets/images/<?php echo htmlspecialchars($product['product_thumbnail']); ?>"
+                            alt="<?php echo htmlspecialchars($product['product_title']); ?>"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    </div>
+                    <h3 class="font-semibold text-gray-900"><?php echo htmlspecialchars($product['product_title']); ?></h3>
+                    <p class="text-gray-600">$<?php echo htmlspecialchars($product['product_price']); ?></p>
                 </div>
-                <h3 class="font-semibold text-gray-900"><?php echo htmlspecialchars($product['product_title']); ?></h3>
-                <p class="text-gray-600">$<?php echo htmlspecialchars($product['product_price']); ?></p>
-            </div>
-            <?php
+                <?php
+            }
         }
         echo '</div>';
     } else {

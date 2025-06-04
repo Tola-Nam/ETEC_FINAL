@@ -1,11 +1,4 @@
-<?php
-require_once('../admin/connections/admin_register.php');
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-$UserName = $_SESSION['UserName'] ?? 'Guest';
-$profileImage = $_SESSION['profileImage'] ?? 'defaultMale.png';
-?>
+
 
 <!-- Responsive Icon-Only Navbar -->
 <navigate>
@@ -16,20 +9,7 @@ $profileImage = $_SESSION['profileImage'] ?? 'defaultMale.png';
             <div class="flex items-center space-x-4 w-full lg:w-auto justify-end mt-2 lg:mt-0">
 
                 <!-- Profile Section -->
-                <figure>
-                    <div class="flex items-center space-x-2 border-r pr-4 border-gray-300">
-                        <!-- Profile Image -->
-                        <a href="#" onclick="openModal()" class="cursor-pointer">
-                            <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
-                                alt="Profile" width="30" height="30"
-                                class="rounded-full shadow-sm border border-gray-200">
-                        </a>
-
-                        <!-- Username - Hidden on mobile -->
-                        <span class="font-semibold text-blue-600 sm:inline">
-                            <?= htmlspecialchars($UserName) ?>
-                    </div>
-                </figure>
+               
                 <!-- Navigation Links -->
                 <ul class="flex items-center space-x-4">
                     <!-- Home -->

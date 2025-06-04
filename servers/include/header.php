@@ -68,8 +68,72 @@ if (isset($_GET['ajax'])) {
 
 
 </head>
+<style>
+    .navbar-blur {
+        backdrop-filter: blur(12px);
+    }
 
-<body class="bg-gray-100 text-white">
+    .search-focus {
+        transform: scale(1.02);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-menu-enter {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .mobile-menu-enter-active {
+        transform: translateX(0);
+    }
+
+    .cart-bounce {
+        animation: bounce 0.5s;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        20%,
+        60%,
+        100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-10px);
+        }
+
+        80% {
+            transform: translateY(-5px);
+        }
+    }
+
+    .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #8b5cf6, #a855f7);
+        border-radius: 1px;
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+
+<body class="bg-gray-100">
     <?php
     if (!empty($_GET['message'])) {
         $message = $_GET['message'];
@@ -124,14 +188,106 @@ if (isset($_GET['ajax'])) {
         class="fixed text-gray-800 p-2 rounded-md z-80 md:hidden hover:bg-gray-100 transition-colors">
         <i class="bi bi-list text-xl"></i>
     </button>
-
     <!-- Main Content -->
     <div id="main-content" class="p-4 transition-all duration-300">
-        <?php include(__DIR__ . '/navbar.php'); ?>
+        <navigate class="sticky top-0 z-50 navbar-blur border-b border-gray-200/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo and Desktop Navigation -->
+                    <div class="flex items-center space-x-8">
+                    </div>
+                    <?php
+                    require_once('../admin/connections/admin_register.php');
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $UserName = $_SESSION['UserName'] ?? '';
+                    $profileImage = $_SESSION['profileImage'] ?? '';
+                    ?>
+                    <!-- Search and Actions -->
+                    <div class="flex items-center space-x-4 align-item-end">
+                        <figure>
+                            <div class="flex items-center space-x-2 pr-4 border-gray-300">
+                                <!-- Profile Image -->
+                                <a href="#" onclick="openModal()" class="cursor-pointer">
+                                    <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
+                                        alt="Profile" width="40" height="40"
+                                        class="rounded-full shadow-sm border border-gray-200">
+                                </a>
+
+                                <!-- Username - Hidden on mobile -->
+                                <span class="font-semibold text-blue-600 sm:inline">
+                                    <?= htmlspecialchars($UserName) ?>
+                            </div>
+                        </figure>
+                        <!-- Search Bar -->
+                        <div class="relative hidden md:block w-80">
+                            <input id="searchInput" type="text" placeholder="Search for products, brands..."
+                                class="w-full pl-12 pr-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all duration-300 search-focus" />
+                            <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="bi bi-search text-lg"></i>
+                            </div>
+                            <!-- <button
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-purple-500 hover:bg-purple-600 text-white p-1.5 rounded-full transition-colors">
+                                <i class="bi bi-arrow-right text-sm"></i>
+                            </button> -->
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center space-x-2">
+                            <!-- Mobile Search -->
+                            <button class="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                onclick="toggleMobileSearch()">
+                                <i class="bi bi-search text-lg text-gray-700"></i>
+                            </button>
+
+                            <!-- Wishlist -->
+                            <button
+                                class="hidden sm:flex p-2 hover:bg-gray-100 rounded-full relative transition-colors group">
+                                <i
+                                    class="bi bi-heart text-lg text-gray-700 group-hover:text-red-500 transition-colors"></i>
+                                <span
+                                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                            </button>
+
+                            <!-- User Account -->
+                            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group"
+                                onclick="openUserMenu()">
+                                <i
+                                    class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
+                            </button>
+
+                            <!-- Shopping Cart -->
+                            <button class="p-2 hover:bg-gray-100 rounded-full relative transition-colors group"
+                                onclick="toggleCart()">
+                                <i
+                                    class="bi bi-bag text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
+                                <span id="cartCount"
+                                    class="absolute -top-1 -right-1 bg-purple-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Search Bar -->
+            <div id="mobileSearch" class="hidden md:hidden px-4 pb-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search products..."
+                        class="w-full pl-12 pr-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all" />
+                    <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                        <i class="bi bi-search text-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </navigate>
         <div id="content" class="p-4">Loading...</div>
     </div>
 
     <script>
+        function toggleMobileSearch() {
+            const mobileSearch = document.getElementById("mobileSearch");
+            mobileSearch.classList.toggle("hidden");
+        }
         // Toggle sidebar open/closed
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
