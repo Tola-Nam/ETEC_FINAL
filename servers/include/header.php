@@ -208,19 +208,18 @@ if (isset($_GET['ajax'])) {
                     <div class="flex items-center space-x-4 align-item-end">
                         <!--profile user -->
                         <figure class="relative inline-block text-left">
-                            <div class="flex items-center space-x-2 pr-4 border-gray-300 cursor-pointer"
+                           <div class="flex items-center space-x-2 pr-4 border-gray-300 cursor-pointer"
                                 onclick="toggleProfileDropdown()">
-                                <!-- Profile Image -->
-                                <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
-                                    alt="Profile" width="40" height="40"
-                                    class="rounded-full shadow-sm border border-gray-200">
-
-                                <!-- Username -->
-                                <span class="font-semibold text-blue-600 sm:inline">
-                                    <?= htmlspecialchars($UserName) ?>
-                                </span>
-                            </div>
-
+                               <!-- Profile Image -->
+                               <div class="w-10 h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm">
+                                   <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
+                                      alt="Profile" class="w-full h-full object-cover">
+                               </div>
+                               <!-- Username -->
+                               <span class="text-gray-700 font-medium">
+                                   <?= htmlspecialchars($UserName) ?>
+                               </span>
+                           </div>
                             <!-- Dropdown Menu -->
                             <?php
                             $connection = connection_database();
@@ -278,8 +277,7 @@ if (isset($_GET['ajax'])) {
                             <!-- User Account -->
                             <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group"
                                 onclick="openUserMenu()">
-                                <i
-                                    class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
+                                <i class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
                             </button>
                             <!-- Shopping Cart -->
                             <button class="p-2 hover:bg-gray-100 rounded-full relative transition-colors group"
@@ -308,7 +306,7 @@ if (isset($_GET['ajax'])) {
     </div>
 
     <script>
-        //         for dropdown screen
+        // for dropdown screen
         function toggleProfileDropdown() {
             const menu = document.getElementById("profileDropdownMenu");
             menu.classList.toggle("hidden");
