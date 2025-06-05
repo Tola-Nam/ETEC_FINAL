@@ -7,22 +7,22 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-gray-800 p-4 rounded-xl">
                 <h2 class="text-gray-400 text-sm">Total Revenue</h2>
-                <p class="text-xl font-bold">$1,250.00</p>
+                <p class="text-xl font-bold text-gray-400">$1,250.00</p>
                 <p class="text-green-400 text-xs mt-1">+12.3% from last month</p>
             </div>
             <div class="bg-gray-800 p-4 rounded-xl">
                 <h2 class="text-gray-400 text-sm">New Customers</h2>
-                <p class="text-xl font-bold">1,234</p>
+                <p class="text-xl font-bold text-gray-400">1,234</p>
                 <p class="text-red-400 text-xs mt-1">-20% this period</p>
             </div>
             <div class="bg-gray-800 p-4 rounded-xl">
                 <h2 class="text-gray-400 text-sm">Active Accounts</h2>
-                <p class="text-xl font-bold">45,678</p>
+                <p class="text-xl font-bold text-gray-400">45,678</p>
                 <p class="text-green-400 text-xs mt-1">+12.8% goal achieved</p>
             </div>
             <div class="bg-gray-800 p-4 rounded-xl">
                 <h2 class="text-gray-400 text-sm">Growth Rate</h2>
-                <p class="text-xl font-bold">4.5%</p>
+                <p class="text-xl font-bold text-gray-400">4.5%</p>
                 <p class="text-green-400 text-xs mt-1">+4.2% performance</p>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Chart Section -->
             <div class="md:w-1/2 bg-gray-800 p-6 rounded-xl">
-                <h2 class="text-lg font-semibold mb-4">AVERAGE OF SALE FOR MONTH</h2>
+                <h2 class="text-lg font-semibold mb-4 text-gray-400">AVERAGE OF SALE FOR MONTH</h2>
                 <canvas id="visitorsChart" height="100"></canvas>
             </div>
 

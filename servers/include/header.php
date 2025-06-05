@@ -175,11 +175,11 @@ if (isset($_GET['ajax'])) {
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="analytics">
             <i class="bi bi-grid me-2"></i><span class="sidebar-text">Product</span>
         </a>
-        <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="updateProduct">
-            <i class="bi bi-grid me-2"></i><span class="sidebar-text">updateProduct</span>
-        </a>
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="form">
             <i class="bi bi-ui-checks me-2"></i><span class="sidebar-text">Form</span>
+        </a>
+        <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="updateProduct">
+            <i class="bi bi-box-arrow-left me-2"></i><span class="sidebar-text">LogOut</span>
         </a>
     </div>
 
@@ -206,19 +206,45 @@ if (isset($_GET['ajax'])) {
                     ?>
                     <!-- Search and Actions -->
                     <div class="flex items-center space-x-4 align-item-end">
-                        <figure>
-                            <div class="flex items-center space-x-2 pr-4 border-gray-300">
+                        <!--profile user -->
+                        <figure class="relative inline-block text-left">
+                            <div class="flex items-center space-x-2 pr-4 border-gray-300 cursor-pointer"
+                                onclick="toggleProfileDropdown()">
                                 <!-- Profile Image -->
-                                <a href="#" onclick="openModal()" class="cursor-pointer">
-                                    <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
-                                        alt="Profile" width="40" height="40"
-                                        class="rounded-full shadow-sm border border-gray-200">
-                                </a>
+                                <img src="/ETEC_FINAL/servers/assets/uploads/<?= htmlspecialchars($profileImage) ?>"
+                                    alt="Profile" width="40" height="40"
+                                    class="rounded-full shadow-sm border border-gray-200">
 
-                                <!-- Username - Hidden on mobile -->
+                                <!-- Username -->
                                 <span class="font-semibold text-blue-600 sm:inline">
                                     <?= htmlspecialchars($UserName) ?>
+                                </span>
                             </div>
+
+                            <!-- Dropdown Menu -->
+                            <?php
+                            $connection = connection_database();
+                            $Admin_id = $_SESSION['Admin_id']??'';
+                            // echo $Admin_id;
+                            $SelectId = " SELECT Admin_id FROM admin where Admin_id = '$Admin_id'";
+
+                            $QueryId = $connection->query($SelectId);
+                            if($QueryId){
+                                $row = mysqli_fetch_assoc($QueryId);
+                            ?>
+                            <div id="profileDropdownMenu"
+                                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md  z-50">
+                                <a href="/ETEC_FINAL/servers/admin/lockAccount.php?status=<?php echo $row['Admin_id'] ?>"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-500">
+                                    <i class="bi bi-lock me-2"></i>Lock Screen
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-500">Settings</a>
+                                <a href="/ETEC_FINAL/logout.php"
+                                    class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100">
+                                    <i class="bi bi-box-arrow-right text-base"></i> Logout
+                                </a>
+                            </div>
+                            <?php }?>
                         </figure>
                         <!-- Search Bar -->
                         <div class="relative hidden md:block w-80">
@@ -249,14 +275,12 @@ if (isset($_GET['ajax'])) {
                                 <span
                                     class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
                             </button>
-
                             <!-- User Account -->
                             <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group"
                                 onclick="openUserMenu()">
                                 <i
                                     class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
                             </button>
-
                             <!-- Shopping Cart -->
                             <button class="p-2 hover:bg-gray-100 rounded-full relative transition-colors group"
                                 onclick="toggleCart()">
@@ -284,6 +308,22 @@ if (isset($_GET['ajax'])) {
     </div>
 
     <script>
+        //         for dropdown screen
+        function toggleProfileDropdown() {
+            const menu = document.getElementById("profileDropdownMenu");
+            menu.classList.toggle("hidden");
+        }
+
+        // Close the profile dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+            const profileDropdown = document.getElementById("profileDropdownMenu");
+            const isClickInside = e.target.closest("figure");
+
+            if (!isClickInside && !e.target.closest("#profileDropdownMenu")) {
+                profileDropdown?.classList.add("hidden");
+            }
+        });
+
         function toggleMobileSearch() {
             const mobileSearch = document.getElementById("mobileSearch");
             mobileSearch.classList.toggle("hidden");

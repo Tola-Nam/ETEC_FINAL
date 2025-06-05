@@ -162,9 +162,9 @@ require_once('../models/connection.php');
                                     <div class="flex items-center space-x-4">
                                         <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
                                         <span id="productPrice"
-                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                           class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
                                         <span id="percentDiscount"
-                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                           class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
                                     </div>
                                  <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
                                 </div>

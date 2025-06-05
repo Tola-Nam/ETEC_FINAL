@@ -1,6 +1,6 @@
 function openModal() {
   document.getElementById("modal-signUp").classList.remove("hidden");
-  // Show register form by default
+  // Show form signUP by default
   showRegisterForm();
 }
 
@@ -71,3 +71,4 @@ document
       icon.classList.add("bi-eye-slash");
     }
   });
+
