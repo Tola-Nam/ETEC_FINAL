@@ -55,6 +55,17 @@
         #main-content.loaded {
             opacity: 1;
         }
+
+        /*      for modal qr code */
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+
     </style>
 
 </head>
@@ -123,8 +134,8 @@
                 $status = $_GET['status'];
                 if ($code) {
 
-                    $getinfo = " SELECT product_title,product_price,discount FROM goods where product_code='$code'";
-                    $QueryInfo = $connection->query($getinfo);
+                    $getInfo = " SELECT product_title,product_price,discount FROM goods where product_code='$code'";
+                    $QueryInfo = $connection->query($getInfo);
                     if ($row = mysqli_fetch_assoc($QueryInfo)) {
                         ?>
                         <div>
@@ -663,15 +674,13 @@
             </div>
         </div>
     </div>
-    <!-- Modal Backdrop -->
+    <!-- Modal Backdrop check out -->
     <div id="ModalCheckOut"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50 hidden min-h-screen ">
-
         <!-- Modal Container -->
         <div class="bg-white rounded-lg  w-[90%] max-w-[700px]  shadow-lg max-w-md p-6 relative">
-
             <!-- Close Button -->
-            <button onclick="CloseModal(event)" id="close" type="button"
+            <button onclick="closeModalCheckOut()" id="close" type="button"
                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
                 <i class="bi bi-x-circle-fill text-2xl"></i>
             </button>
@@ -682,7 +691,6 @@
                     <div class="w-20 h-28 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                         <div class="w-14 h-20 bg-black rounded"></div>
                     </div>
-
                     <!-- Product Details -->
                     <div class="flex-1">
                         <div class="flex justify-between items-start mb-2">
@@ -697,9 +705,7 @@
                                 </svg>
                             </button>
                         </div>
-
                         <p class="text-sm text-gray-600 mb-3">Code. 4122406209 - Black</p>
-
                         <!-- Size and Quantity Selection -->
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
@@ -723,12 +729,10 @@
                                 </select>
                             </div>
                         </div>
-
                         <!-- Stock Status -->
                         <div class="text-right mb-3">
                             <p class="text-sm text-red-500 font-medium">2 Left in stock</p>
                         </div>
-
                         <!-- Pricing -->
                         <div class="text-right space-y-1">
                             <p class="text-sm text-gray-500 line-through">US $27.95</p>
@@ -737,7 +741,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Move to Wishlist Button -->
                 <button
                     class="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors mb-6">
@@ -748,7 +751,6 @@
                     Move to wishlist
                 </button>
             </div>
-
             <!-- Order Summary -->
             <div class="border-t bg-gray-50 p-6">
                 <div class="space-y-3 mb-6">
@@ -770,13 +772,94 @@
                         <span class="text-lg font-semibold text-gray-900">US $18.02</span>
                     </div>
                 </div>
+            <?php
+            $hasSession = isset($_SESSION['user_id']);
+            $showQrModal = $_SESSION['show_qr_modal'] ?? false;
+
+            // Clear the modal flag after showing once
+            unset($_SESSION['show_qr_modal']);
+            ?>
 
                 <!-- Checkout Button -->
-                <button
+                <button id="checkOut"
                     class="w-full bg-black text-white py-4 rounded-lg font-medium text-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-gray-300">
                     Proceed to Checkout
                 </button>
             </div>
         </div>
     </div>
+
+  <!-- Modal for QR Code Checkout -->
+  <div id="ModalQCode"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden min-h-screen">
+
+      <!-- Modal Container -->
+      <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[700px] p-6 relative animate-fadeIn">
+          <!-- Close Button -->
+          <button onclick="closeModalQrCode()" type="button"
+                  class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none">
+              <i class="bi bi-x-circle-fill text-2xl"></i>
+          </button>
+
+          <!-- Modal Content -->
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Scan QR to Checkout</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
+              <img src="../assets/Qr_dolla.jpg" class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
+                   alt="QR Code"
+              <img src="../assets/Qr_dolla.jpg" class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
+                   alt="QR Code"
+          </div>
+      </div>
+  </div>
+   <script>
+       const showQr = <?php echo json_encode($showQrModal); ?>;
+
+       if (showQr) {
+           // Trigger modal
+           document.getElementById('ModalQrCode').classList.remove('hidden');
+       }
+
+       // Existing checkout button logic
+       const isLoggedIn = <?php echo json_encode($hasSession); ?>;
+       document.getElementById("checkOut").addEventListener("click", function () {
+           if (isLoggedIn) {
+               document.getElementById('ModalQrCode').classList.remove('hidden');
+           } else {
+               document.getElementById("modal-signUp").classList.remove("hidden");
+               document.getElementById("ModalCheckOut").classList.add("hidden");
+           }
+       });
+
+       function CloseModalQrCode() {
+           document.getElementById('ModalQrCode').classList.add('hidden');
+       }
+
+       function closeLoginModal() {
+           document.getElementById('modal-signUp').classList.add('hidden');
+       }
+        function closeModalCheckOut(){
+           document.getElementById("ModalCheckOut").classList.add('hidden');
+        }
+   </script>
+
+// For search items in category
+    <script>
+        function search() {
+            let filter = document.getElementById('searchInput').value.toUpperCase();
+            let items = document.querySelectorAll('.product-card');
+
+            items.forEach(item => {
+                let heading = item.querySelector('h5');
+                let value = heading.innerHTML || heading.innerText || heading.textContent;
+
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
     <script src="../controllers/productModal.js"></script>

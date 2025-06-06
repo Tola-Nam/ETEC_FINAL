@@ -145,12 +145,12 @@ require_once('../models/connection.php');
                 }
                 //^ Display each category in a single row
                 foreach ($categoryProducts as $category => $products) {
-                    echo "<h4 class='text-2xl font-bold text-gray-900 mb-6 mt-8'>" . htmlspecialchars($category) . "</h4>";
+                    echo "<h4 class='text-xl fw-bold fst-italic text-gray-900 mb-6 mt-8'>" . htmlspecialchars($category) . "</h4>";
                     echo "<div class='category-row'>";
                     foreach ($products as $product) {
                         // block fashion 
                         if ($product['category'] === 'fashion') {
-                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=fashion" 
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=fashion"
                                 class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
                                 <div class="w-full h-64 overflow-hidden">
                                     <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
@@ -287,6 +287,25 @@ require_once('../models/connection.php');
             ?>
         </div>
     </div>
+<!-- function for search product -->
+    <script>
+        function search() {
+            let filter = document.getElementById('searchInput').value.toUpperCase();
+            let items = document.querySelectorAll('.product-card');
+
+            items.forEach(item => {
+                let heading = item.querySelector('h5','h4');
+                let value = heading.innerHTML || heading.innerText || heading.textContent;
+
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
     <!-- for discount product -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {

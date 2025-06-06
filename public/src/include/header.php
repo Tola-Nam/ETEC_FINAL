@@ -84,6 +84,15 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+
 </style>
 
 <body>
@@ -99,7 +108,7 @@
               class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <i class="bi bi-bag-fill text-white text-sm"></i>
             </div>
-            <div class="text-2xl font-bold gradient-text">Apsara Style</div>
+            <div class="text-SM fw-bold fst-italic gradient-text">Apsara Style</div>
           </div>
           <!-- Desktop Navigation -->
           <nav class="hidden lg:flex space-x-8">
@@ -119,7 +128,7 @@
         <div class="flex items-center space-x-4">
           <!-- Search Bar -->
           <div class="relative hidden md:block w-80">
-            <input id="searchInput" type="text" placeholder="Search for products, brands..."
+            <input id="searchInput" type="text" placeholder="Search for products, brands..." onkeyup="search()"
               class="w-full pl-12 pr-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all duration-300 search-focus" />
             <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
               <i class="bi bi-search text-lg"></i>
@@ -185,7 +194,7 @@
             class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
             <i class="bi bi-bag-fill text-white text-sm"></i>
           </div>
-          <div class="text-xl font-bold gradient-text">Apsara Style</div>
+          <div class="text-sm fw-bold fst-italic gradient-text">Apsara Style</div>
         </div>
         <button onclick="toggleMobileMenu()" class="p-2 hover:bg-gray-100 rounded-full">
           <i class="bi bi-x text-xl"></i>
@@ -243,7 +252,7 @@
             <label for="login-phone" class="block text-sm font-medium text-gray-700 mb-2">
               Please enter your phone number
             </label>
-            <input type="tel" name="phone-number" id="login-phone" placeholder="Enter your phone number"
+            <input type="tel" name="phoneNumber" id="login-phone" placeholder="Enter your phone number"
               class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
           </div>
           <!-- Password Input with Toggle -->
@@ -360,6 +369,24 @@
       </form>
     </div>
   </div>
+ <script>
+        function search(){
+            let fitter = document.getElementById('searchInput').values.toUppercase();
+            let items = document.querySelectorAll('.product-card');
+            let l = document.getElementsByTagName('h5');
+
+            for( var i=0; i<= l.length; i++){
+                let a=items[i].getElementsByTagName('h5')[0];
+                let value = a.innHTML || a.innerText || a.textContent;
+
+                if(value.toUppercase().indexOf(filter)>-1){
+                    items[i].style.display = "";
+                }else{
+                    items['i'].style.display = "none";
+                }
+            }
+        }
+    </script>
   <script>
     // Mobile menu toggle
     function toggleMobileMenu() {

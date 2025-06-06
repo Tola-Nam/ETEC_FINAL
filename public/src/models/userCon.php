@@ -39,21 +39,23 @@ class User
         }
     }
 
-    //! function for signin account if user have been signup account ready.
+    //! function for sign in account if user have been signup account ready.
 
     public function signIn()
     {
         $conn = connection();
-        if (!empty($this->email) || !empty($this->phoneNumber) || !empty($this->password)) {
+        if (!empty($this->email) && !empty($this->phoneNumber) && !empty($this->password)) {
             $passwordHash = password_hash($this->password, PASSWORD_DEFAULT); //~ best practice
             $selectQuery = " SELECT u.email,u.phoneNumber,u.password FROM user u
                  where (`email` = '$this->email' AND `phoneNumber` = '$this->phoneNumber' AND `password` = '$passwordHash')";
 
             if (!empty($conn->query($selectQuery))) {
                 header('Location: http://localhost/ETEC_FINAL/public/src/views/index.php');
+            }else{
+                echo '<script> console.error(" The user is connection fail to get user!!!"); </script>';
             }
         } else {
-            echo '<script>alert("please fill in field correct!!")</script>';
+            echo '<script>alert("please fill in field correct!!");</script>';
         }
     }
 }

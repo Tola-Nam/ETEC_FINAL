@@ -94,8 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('User not found!');</script>";
     }
     $stmt->close();
-} else {
-    echo '<script>alert("no session for sign up!!");</script>';
 }
 
 $connection->close();
@@ -165,7 +163,7 @@ $connection->close();
                         alt="Avatar" class="w-full h-full object-cover"
                         onerror="this.src='/ETEC_FINAL/servers/assets/uploads/profileMale.png'">
                 </div>
-                <h2 class="text-2xl font-semibold text-gray-800 mb-2">Hi! <?php echo htmlspecialchars($displayName); ?>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2 fw-bold fst-italic">Hi! <?php echo htmlspecialchars($displayName); ?>
                 </h2>
                 <p class="text-gray-600">Enter your password to access the admin panel.</p>
             </div>

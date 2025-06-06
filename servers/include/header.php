@@ -1,7 +1,7 @@
 <?php
 session_start();
 // session_destroy();
-// require_once('//public/src/models/getthumbnail.php');
+// require_once('//public/src/models/getThumbnail.php');
 require_once('../admin/connections/admin_register.php');
 require_once('../admin/connections/product_information.php');
 
@@ -232,14 +232,13 @@ if (isset($_GET['ajax'])) {
                                 $row = mysqli_fetch_assoc($QueryId);
                             ?>
                             <div id="profileDropdownMenu"
-                                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md  z-50">
+                                class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md  z-50">
                                 <a href="/ETEC_FINAL/servers/admin/lockAccount.php?status=<?php echo $row['Admin_id'] ?>"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-500">
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-400 fw-bold fst-italic">
                                     <i class="bi bi-lock me-2"></i>Lock Screen
                                 </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-500">Settings</a>
-                                <a href="/ETEC_FINAL/logout.php"
-                                    class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100">
+                                <a type="button" onclick="openModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-400 fw-bold fst-italic"><i class="bi bi-shuffle me-2"></i>ChanceProfile</a>
+                                <a type="button" onclick="ModalLogOut()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100 fw-bold fst-italic">
                                     <i class="bi bi-box-arrow-right text-base"></i> Logout
                                 </a>
                             </div>
@@ -268,16 +267,11 @@ if (isset($_GET['ajax'])) {
 
                             <!-- Wishlist -->
                             <button
-                                class="hidden sm:flex p-2 hover:bg-gray-100 rounded-full relative transition-colors group">
+                                class="sm:flex p-2 hover:bg-gray-100 rounded-full relative transition-colors group">
                                 <i
                                     class="bi bi-heart text-lg text-gray-700 group-hover:text-red-500 transition-colors"></i>
                                 <span
                                     class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                            </button>
-                            <!-- User Account -->
-                            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group"
-                                onclick="openUserMenu()">
-                                <i class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
                             </button>
                             <!-- Shopping Cart -->
                             <button class="p-2 hover:bg-gray-100 rounded-full relative transition-colors group"
@@ -514,3 +508,86 @@ if (isset($_GET['ajax'])) {
             }
         });
     </script>
+
+
+<!--modal for upload profile-->
+
+<!-- Tailwind Modal -->
+<div id="tailwindModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <!-- Modal Dialog -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+            <i class="bi bi-x-circle-fill text-2xl"></i>
+        </button>
+
+        <h2 class="text-lg font-bold mb-4">Change Your Profile</h2>
+
+        <!-- Modal Body -->
+        <form action="#" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="profileImageUpload" class="block text-sm font-medium text-gray-700 mb-2">
+                    Please Upload your profile
+                </label>
+                <input type="file" name="profileImage" id="profileImageUpload"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm">
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal()"
+                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
+                    <i class="bi bi-x-circle me-2"></i> Cancel
+                </button>
+                <button type="submit" name="Confirm"
+                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
+                    <i class="bi bi-check-circle me-2"></i> Confirm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Tailwind Modal Script -->
+<script>
+    function openModal() {
+        document.getElementById('tailwindModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('tailwindModal').classList.add('hidden');
+    }
+</script>
+
+<!-- Modal for log out account admin-->
+<div id="ModalLogOut" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+    <!-- Modal Dialog -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <button onclick="shutdownModal()" class="absolute top-0 right-1 text-gray-400 hover:text-gray-600">
+            <i class="bi bi-x-circle-fill text-2xl"></i>
+        </button>
+        <h2 class="text-sm text-center fw-bold fst-italic mb-4 bg-red-100 text-red-300 rounded ">Are you sir ? Do you want to logOut account?</h2>
+        <!-- Modal Body -->
+            <!-- Modal Footer -->
+            <div class="flex justify-center gap-2">
+                <button type="button" onclick="shutdownModal()"
+                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
+                    <i class="bi bi-x-circle me-2"></i> Cancel
+                </button>
+                <a href="http://localhost/ETEC_FINAL/servers/admin/logOut.php"
+                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
+                    <i class="bi bi-check-circle me-2"></i> Confirm
+                </a>
+            </div>
+    </div>
+</div>
+
+<!-- Tailwind Modal Script -->
+<script>
+    function ModalLogOut() {
+        document.getElementById('ModalLogOut').classList.remove('hidden');
+    }
+
+    function shutdownModal() {
+        document.getElementById('ModalLogOut').classList.add('hidden');
+    }
+</script>
