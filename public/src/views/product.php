@@ -58,14 +58,20 @@
 
         /*      for modal qr code */
         @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.3s ease-out;
         }
-
     </style>
 
 </head>
@@ -183,7 +189,6 @@
                     </div>
                     <?php
                 }
-
                 ?>
 
                 <!-- Size Selection -->
@@ -272,17 +277,17 @@
                 <!-- Quantity -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Quantity</h3>
-                    <div class="flex items-center space-x-3">
-                        <button onclick="changeQuantity(-1)"
-                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
-                            <span class="text-lg">−</span>
-                        </button>
-                        <span id="quantity" class="text-lg font-semibold w-8 text-center">1</span>
-                        <button onclick="changeQuantity(1)"
-                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
-                            <span class="text-lg">+</span>
-                        </button>
-                    </div>
+                   <div class="flex items-center space-x-3">
+                       <button onclick="changeQuantity(-1)"
+                           class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
+                           <span class="text-lg">−</span>
+                       </button>
+                       <span id="quantity" class="text-lg font-semibold w-8 text-center">1</span>
+                       <button onclick="changeQuantity(1)"
+                           class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
+                           <span class="text-lg">+</span>
+                       </button>
+                   </div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -313,7 +318,7 @@
                                         <span class="group-open:rotate-180 transition-transform">↓</span>
                                     </summary>
                                     <div class="mt-4 text-gray-600 space-y-2">
-                                        <p class="hover:bg-gray-400 rounded"> Code <?php echo $code ?></p>
+                                        <p id="productCode" class="hover:bg-gray-400 rounded"> Code <?php echo $code ?></p>
                                         <p class="hover:bg-gray-400 rounded"><?php echo $result['product_description'] ?></p>
                                     </div>
                                 </details>
@@ -393,24 +398,6 @@
     </section>
     <!-- Footer -->
     <?php require_once('../include/footer.php') ?>
-    <script>
-        // function for discount product
-        const productPrice = parseFloat(
-            document.getElementById("productPrice").innerText.replace("$", ""));
-        const percentDiscount = parseFloat(
-            document.getElementById("percentDiscount").innerText.replace("% OFF", ""));
-
-        if (!isNaN(productPrice) && !isNaN(percentDiscount)) {
-            const Discount = productPrice - (productPrice * percentDiscount) / 100;
-            document.getElementById("productDiscount").innerText = `$${Discount.toFixed(2)}`;
-        }
-
-        const selectedText = document.getElementById('selectedSize').textContent.trim();
-        const size = selectedText.split(':')[1].trim();
-        if (size == 'M' || size == 'XS' || size == 'S' || size == 'L' || size == 'XL' || size == 'XXL') {
-            document.getElementById('sizeProduct').textContent = `Model is 6'2" and wears size ${size}`;
-        }
-    </script>
 
     <script src="../controllers/productRoute.js"></script>
 
@@ -688,14 +675,27 @@
             <div class="p-6">
                 <div class="flex gap-4 mb-6">
                     <!-- Product Image -->
-                    <div class="w-20 h-28 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <div class="w-14 h-20 bg-black rounded"></div>
+                    <?php
+                     require_once('../models/connection.php');
+                     $connection = connection();
+                     $code = $_GET['code'] ?? '';
+                     $status = $_GET['status'] ?? '';
+
+                     $getterProduct = "SELECT product_code,product_title,product_thumbnail FROM goods WHERE product_code = '$code' AND category ='$status'";
+
+                     $QueryProduct = $connection->query($getterProduct);
+                     if($getProductInfo = mysqli_fetch_assoc($QueryProduct) ){
+                     ?>
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div class="w-10 h-10 bg-black rounded overflow-hidden">
+                            <img src="/ETEC_FINAL/servers/assets/images/<?php echo $getProductInfo['product_thumbnail']  ?>" alt="Thumbnail" class="w-full h-full object-cover" />
+                        </div>
                     </div>
                     <!-- Product Details -->
                     <div class="flex-1">
                         <div class="flex justify-between items-start mb-2">
-                            <h2 class="text-lg font-medium text-gray-900 pr-2">
-                                Relaxed Fit Cargo Trouser
+                            <h2 id="displayTitle" class="text-lg font-medium text-gray-900 pr-2">
+                                <?php echo $getProductInfo['product_title'] ?>
                             </h2>
                             <button class="p-1 text-gray-400 hover:text-gray-600">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -705,29 +705,25 @@
                                 </svg>
                             </button>
                         </div>
-                        <p class="text-sm text-gray-600 mb-3">Code. 4122406209 - Black</p>
+                        <p id="displayCode" class="text-sm text-gray-600 mb-3">Code. <?php echo $code ?> - <span id="setColor">white</span></p>
+                        <?php
+                            }
+                         ?>
                         <!-- Size and Quantity Selection -->
-                        <div class="grid grid-cols-2 gap-3 mb-3">
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">Size</label>
-                                <select
-                                    class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black">
-                                    <option>M</option>
-                                    <option>S</option>
-                                    <option>L</option>
-                                    <option>XL</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm text-gray-600 mb-1">Quantity</label>
-                                <select
-                                    class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-black">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
-                            </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                          <!-- Size Display -->
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Size</label>
+                            <div id="displaySize"
+                              class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800">38</div>
+                          </div>
+
+                          <!-- Quantity Display -->
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                            <div id="displayQuantity"
+                              class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800"> 1</div>
+                          </div>
                         </div>
                         <!-- Stock Status -->
                         <div class="text-right mb-3">
@@ -735,9 +731,9 @@
                         </div>
                         <!-- Pricing -->
                         <div class="text-right space-y-1">
-                            <p class="text-sm text-gray-500 line-through">US $27.95</p>
-                            <p class="text-sm text-gray-600">(40% off) -US $11.18</p>
-                            <p class="text-lg font-semibold text-red-500">US $16.77</p>
+                            <p id="OriginalPrice" class="text-sm text-red-400 line-through"></p>
+                            <p id="DisPrice" class="text-sm text-gray-600 text-yellow-400"></p>
+                            <p id="SalePrice" class="text-sm font-semibold text-green-400"></p>
                         </div>
                     </div>
                 </div>
@@ -756,7 +752,7 @@
                 <div class="space-y-3 mb-6">
                     <div class="flex justify-between items-center">
                         <span class="text-gray-900 font-medium">Total</span>
-                        <span class="text-gray-900 font-medium">US $27.95</span>
+                        <span id="amountPay" class="text-gray-900 font-medium"></span>
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-gray-600">Save</span>
@@ -769,16 +765,16 @@
                     <hr class="border-gray-300" />
                     <div class="flex justify-between items-center pt-2">
                         <span class="text-lg font-semibold text-gray-900">Amount to pay</span>
-                        <span class="text-lg font-semibold text-gray-900">US $18.02</span>
+                        <span id="AmountPay" class="text-lg font-semibold text-gray-900">US $18.02</span>
                     </div>
                 </div>
-            <?php
-            $hasSession = isset($_SESSION['user_id']);
-            $showQrModal = $_SESSION['show_qr_modal'] ?? false;
+                <?php
+                $hasSession = isset($_SESSION['user_id']);
+                $showQrModal = $_SESSION['show_qr_modal'] ?? false;
 
-            // Clear the modal flag after showing once
-            unset($_SESSION['show_qr_modal']);
-            ?>
+                // Clear the modal flag after showing once
+                unset($_SESSION['show_qr_modal']);
+                ?>
 
                 <!-- Checkout Button -->
                 <button id="checkOut"
@@ -789,77 +785,149 @@
         </div>
     </div>
 
-  <!-- Modal for QR Code Checkout -->
-  <div id="ModalQCode"
-       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden min-h-screen">
+    <!-- Modal for QR Code Checkout -->
+    <div id="ModalQCode"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden min-h-screen">
 
-      <!-- Modal Container -->
-      <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[700px] p-6 relative animate-fadeIn">
-          <!-- Close Button -->
-          <button onclick="closeModalQrCode()" type="button"
-                  class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none">
-              <i class="bi bi-x-circle-fill text-2xl"></i>
-          </button>
+        <!-- Modal Container -->
+        <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-[700px] p-6 relative animate-fadeIn">
+            <!-- Close Button -->
+            <button onclick="closeModalQrCode()" type="button"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none">
+                <i class="bi bi-x-circle-fill text-2xl"></i>
+            </button>
 
-          <!-- Modal Content -->
-          <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Scan QR to Checkout</h2>
+            <!-- Modal Content -->
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Scan QR to Checkout</h2>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
-              <img src="../assets/Qr_dolla.jpg" class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
-                   alt="QR Code"
-              <img src="../assets/Qr_dolla.jpg" class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
-                   alt="QR Code"
-          </div>
-      </div>
-  </div>
-   <script>
-       const showQr = <?php echo json_encode($showQrModal); ?>;
-
-       if (showQr) {
-           // Trigger modal
-           document.getElementById('ModalQrCode').classList.remove('hidden');
-       }
-
-       // Existing checkout button logic
-       const isLoggedIn = <?php echo json_encode($hasSession); ?>;
-       document.getElementById("checkOut").addEventListener("click", function () {
-           if (isLoggedIn) {
-               document.getElementById('ModalQrCode').classList.remove('hidden');
-           } else {
-               document.getElementById("modal-signUp").classList.remove("hidden");
-               document.getElementById("ModalCheckOut").classList.add("hidden");
-           }
-       });
-
-       function CloseModalQrCode() {
-           document.getElementById('ModalQrCode').classList.add('hidden');
-       }
-
-       function closeLoginModal() {
-           document.getElementById('modal-signUp').classList.add('hidden');
-       }
-        function closeModalCheckOut(){
-           document.getElementById("ModalCheckOut").classList.add('hidden');
-        }
-   </script>
-
-// For search items in category
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
+                <img src="../assets/Qr_dolla.jpg"
+                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
+                alt="QR Code"
+                <img src="../assets/Qr_dolla.jpg"
+                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />alt="QR Code"
+            </div>
+        </div>
+    </div>
     <script>
-        function search() {
-            let filter = document.getElementById('searchInput').value.toUpperCase();
-            let items = document.querySelectorAll('.product-card');
+        const showQr = <?php echo json_encode($showQrModal); ?>;
 
-            items.forEach(item => {
-                let heading = item.querySelector('h5');
-                let value = heading.innerHTML || heading.innerText || heading.textContent;
+        if (showQr) {
+            // Trigger modal
+            document.getElementById('ModalQrCode').classList.remove('hidden');
+        }
 
-                if (value.toUpperCase().indexOf(filter) > -1) {
-                    item.style.display = "";
-                } else {
-                    item.style.display = "none";
-                }
+        // Existing checkout button logic
+        const isLoggedIn = <?php echo json_encode($hasSession); ?>;
+        document.getElementById("checkOut").addEventListener("click", function () {
+            if (isLoggedIn) {
+                document.getElementById('ModalQrCode').classList.remove('hidden');
+            } else {
+                document.getElementById("modal-signUp").classList.remove("hidden");
+                document.getElementById("ModalCheckOut").classList.add("hidden");
+            }
+        });
+
+        function CloseModalQrCode() {
+            document.getElementById('ModalQrCode').classList.add('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('modal-signUp').classList.add('hidden');
+        }
+        function closeModalCheckOut() {
+            document.getElementById("ModalCheckOut").classList.add('hidden');
+        }
+    </script>
+// for getter product items into check out
+    <script>
+        // function for discount product
+        const productPrice = parseFloat(
+            document.getElementById("productPrice").innerText.replace("$", ""));
+        const percentDiscount = parseFloat(
+            document.getElementById("percentDiscount").innerText.replace("% OFF", ""));
+        const quantity = parseInt(
+            document.getElementById("quantity").innerText.replace(""));
+        let Total;
+
+        if (!isNaN(productPrice) && !isNaN(percentDiscount)) {
+            var Discount = productPrice - (productPrice * percentDiscount) / 100;
+            document.getElementById("productDiscount").innerText = `$${Discount.toFixed(2)}`;
+            document.getElementById("SalePrice").innerText = `$${Discount.toFixed(2)}`;
+            document.getElementById("OriginalPrice").innerText = `$${productPrice}`;
+            document.getElementById("DisPrice").innerText = `$${percentDiscount} %OFF`;
+        }
+       function changeQuantity(amount) {
+            let quantityElem = document.getElementById("quantity");
+            let quantity = parseInt(quantityElem.innerText);
+
+            // Prevent quantity from going below 1
+            quantity = Math.max(1, quantity + amount);
+            quantityElem.innerText = quantity;
+
+            let total = Discount * quantity;
+            document.getElementById("amountPay").innerText = `$${total.toFixed(2)}`;
+            document.getElementById("displayQuantity").innerText = `${quantity}`;
+            document.getElementById("AmountPay").innerText = `${total.toFixed(2)}`;
+        }
+        // Initialize total on page load
+        changeQuantity(0);
+// function for selection size
+      function selectSize(button, size) {
+          // Update selected size text
+          document.getElementById('selectedSize').textContent = `Selected: ${size}`;
+          document.getElementById('sizeProduct').textContent = `Model wears size ${size}`;
+          document.getElementById("displaySize").innerText = `${size}`;
+
+          // Get all buttons in the same grid
+          const container = button.closest('.grid');
+          const buttons = container.querySelectorAll('button');
+
+          buttons.forEach(btn => {
+              btn.classList.remove('bg-gray-900', 'text-white', 'border-gray-900');
+              btn.classList.add('border-gray-300', 'text-black'); // optional: restore text color
+          });
+
+          button.classList.add('bg-gray-900', 'text-white', 'border-gray-900');
+          button.classList.remove('border-gray-300', 'text-black');
+      }
+
+//         function for select color
+       function selectColor(button, color) {
+           // Update the displayed selected color
+           document.getElementById('selectedColor').textContent = `Selected: ${capitalize(color)}`;
+           document.getElementById("setColor").textContent = `${color}`;
+
+           // Update the visible selection (border styling)
+           const buttons = button.parentElement.querySelectorAll('button');
+           buttons.forEach(btn => {
+               btn.classList.remove('border-gray-900');
+               btn.classList.add('border-transparent');
+           });
+
+           button.classList.remove('border-transparent');
+           button.classList.add('border-gray-900');
+       }
+
+       // Helper function to capitalize the first letter
+       function capitalize(str) {
+           return str.charAt(0).toUpperCase() + str.slice(1);
+       }
+        //    for check button hearts
+        // Handle wishlist button
+        const wishlistBtn = document.querySelector(
+          'button[class*="flex items-center gap-2"]'
+        );
+        if (wishlistBtn) {
+            wishlistBtn.addEventListener("click", function () {
+               this.innerHTML = this.innerHTML.replace(
+                 "Move to wishlist",
+                 "Added to wishlist ✓"
+               );
+               this.classList.add("text-green-600");
             });
         }
+
     </script>
 
     <script src="../controllers/productModal.js"></script>

@@ -133,7 +133,7 @@ class admin_signin_account extends Admin_register
                 header("Location: http://localhost/ETEC_FINAL/servers/include/header.php?message=success");
                 exit;
             } else {
-                throw new Exception("Signin not found!");
+                throw new Exception("Sign in not found!");
             }
 
         } catch (Exception $e) {

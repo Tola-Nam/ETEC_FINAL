@@ -1,4 +1,8 @@
-<?php require_once('../models/userCon.php');
+<?php
+require_once('../models/userCon.php');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,15 +88,22 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
   @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   .animate-fadeIn {
     animation: fadeIn 0.3s ease-out;
   }
-
 </style>
 
 <body>
@@ -108,7 +119,7 @@
               class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <i class="bi bi-bag-fill text-white text-sm"></i>
             </div>
-            <div class="text-SM fw-bold fst-italic gradient-text">Apsara Style</div>
+            <div class="text-xs fw-bold fst-italic gradient-text">Apsara Style</div>
           </div>
           <!-- Desktop Navigation -->
           <nav class="hidden lg:flex space-x-8">
@@ -134,7 +145,6 @@
               <i class="bi bi-search text-lg"></i>
             </div>
           </div>
-
           <!-- Action Buttons -->
           <div class="flex items-center space-x-2">
             <!-- Mobile Search -->
@@ -142,19 +152,38 @@
               onclick="toggleMobileSearch()">
               <i class="bi bi-search text-lg text-gray-700"></i>
             </button>
-
+            <!-- User Account
+            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group" onclick="openModal()">
+              <i class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
+            </button>-->
+            <?php
+            require_once('../models/connection.php');
+            if (session_status() === PHP_SESSION_NONE) {
+              session_start();
+            }
+            $profileImage = $_SESSION['profileImage'] ?? 'profileMale.png';
+            $firstName = $_SESSION['firstName'] ?? 'Guest';
+            $lastName = $_SESSION['lastName'] ?? '';
+            ?>
+            <figure class="relative inline-block text-left">
+              <div class="flex items-center space-x-2  border-gray-300 cursor-pointer" onclick="openModal()">
+                <!-- Profile Image -->
+                <div class="w-8 h-8 rounded-full overflow-hidden border border-gray-200 shadow-sm">
+                  <img src="http://localhost/ETEC_FINAL/public/src/assets/<?= htmlspecialchars($profileImage) ?>"
+                    alt="Profile" class="w-full h-full object-cover">
+                </div>
+                <!-- Username -->
+               <span class="text-gray-700 font-xs hidden sm:inline">
+                 <?= htmlspecialchars($firstName . ' ' . $lastName) ?>
+               </span>
+              </div>
+            </figure>
             <!-- Wishlist -->
             <button class=" sm:flex p-2 hover:bg-gray-100 rounded-full relative transition-colors group">
               <i class="bi bi-heart text-lg text-gray-700 group-hover:text-red-500 transition-colors"></i>
               <span
                 class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
             </button>
-
-            <!-- User Account -->
-            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group" onclick="openModal()">
-              <i class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
-            </button>
-
             <!-- Shopping Cart -->
             <button class="p-2 hover:bg-gray-100 rounded-full relative transition-colors group" onclick="toggleCart()">
               <i class="bi bi-bag text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
@@ -172,7 +201,7 @@
     <!-- Mobile Search Bar -->
     <div id="mobileSearch" class="hidden md:hidden px-4 pb-4">
       <div class="relative">
-        <input type="text" placeholder="Search products..."
+        <input id="searchInput" type="text" placeholder="Search products..." onkeyup="search()"
           class="w-full pl-12 pr-4 py-3 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all" />
         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
           <i class="bi bi-search text-lg"></i>
@@ -237,7 +266,7 @@
 
       <!-- Sign In Form -->
       <form action="#" id="signIn" class="hidden" method="post" enctype="multipart/form-data">
-        <h2 class="text-lg font-bold mb-4 text-gray-700">Login account</h2>
+        <h2 class="text-lg font-bold mb-4 text-gray-700 fw-bold fst-italic text-center">Login account</h2>
         <div class="mb-4">
           <!-- Email input -->
           <div class="mb-3">
@@ -275,7 +304,7 @@
             class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
             <i class="bi bi-x-circle me-2"></i> Cancel
           </button>
-          <button type="submit" name="SignIn"
+          <button type="submit" name="Login"
             class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
             <i class="bi bi-check-circle me-2"></i> Login
           </button>
@@ -284,7 +313,7 @@
 
       <!-- Sign Up Form -->
       <form action="#" id="signUp" method="post" enctype="multipart/form-data">
-        <h2 class="text-lg font-bold mb-4 text-gray-700">Register account</h2>
+        <h2 class="text-lg fw-bold fst-italic mb-4 text-gray-700 text-center">Register account</h2>
         <div class="mb-4">
           <!-- First name input -->
           <div class="flex gap-4 mb-3">
@@ -346,7 +375,33 @@
             <input type="password" name="confirmPassword" id="register-password" placeholder="Enter your password"
               autocomplete="current-password"
               class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <div class="flex gap-4 mb-3">
+              <!-- Profile image upload optional -->
+              <div class="w-1/2">
+                <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Optional Image</label>
+                <input type="file" name="image" id="image"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+              </div>
 
+              <!-- Gender selection -->
+              <div class="w-1/2 flex flex-col justify-center">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Please select your gender</label>
+                <div class="flex items-center space-x-6">
+                  <!-- Male Option -->
+                  <label class="inline-flex items-center space-x-2">
+                    <input type="radio" name="gender" value="Male"
+                      class="text-purple-600 focus:ring-purple-500 border-gray-300">
+                    <span class="text-sm text-gray-700">Male</span>
+                  </label>
+                  <!-- Female Option -->
+                  <label class="inline-flex items-center space-x-2">
+                    <input type="radio" name="gender" value="Female"
+                      class="text-purple-600 focus:ring-purple-500 border-gray-300">
+                    <span class="text-sm text-gray-700">Female</span>
+                  </label>
+                </div>
+              </div>
+            </div>
             <!-- Toggle Icon -->
             <button type="button" id="toggleRegisterPassword"
               class="absolute top-[38px] right-3 text-gray-500 hover:text-gray-700">
@@ -354,14 +409,13 @@
             </button>
           </div>
         </div>
-
         <!-- Modal Footer -->
         <div class="flex justify-end gap-2">
           <button type="button" onclick="closeModal()"
             class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center">
             <i class="bi bi-x-circle me-2"></i> Cancel
           </button>
-          <button type="submit" name="SignUp"
+          <button type="submit" name="Register"
             class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 flex items-center">
             <i class="bi bi-check-circle me-2"></i> Register
           </button>
@@ -369,24 +423,7 @@
       </form>
     </div>
   </div>
- <script>
-        function search(){
-            let fitter = document.getElementById('searchInput').values.toUppercase();
-            let items = document.querySelectorAll('.product-card');
-            let l = document.getElementsByTagName('h5');
 
-            for( var i=0; i<= l.length; i++){
-                let a=items[i].getElementsByTagName('h5')[0];
-                let value = a.innHTML || a.innerText || a.textContent;
-
-                if(value.toUppercase().indexOf(filter)>-1){
-                    items[i].style.display = "";
-                }else{
-                    items['i'].style.display = "none";
-                }
-            }
-        }
-    </script>
   <script>
     // Mobile menu toggle
     function toggleMobileMenu() {

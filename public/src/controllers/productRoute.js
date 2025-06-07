@@ -49,13 +49,11 @@ function selectSize(button, size) {
   // Remove selection from all size buttons
   const sizeButtons = button.parentElement.querySelectorAll("button");
   sizeButtons.forEach((btn) => {
-    btn.className =
-      "py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900";
+    btn.className = "py-2 px-3 border border-gray-300 rounded-md text-center hover:border-gray-900";
   });
 
   // Add selection style to clicked button
-  button.className =
-    "py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center";
+  button.className = "py-2 px-3 border border-gray-900 bg-gray-900 text-white rounded-md text-center";
 
   // Update the selectedSize paragraph
   document.getElementById("selectedSize").textContent = `Selected: ${size}`;
