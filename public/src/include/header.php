@@ -115,8 +115,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="flex items-center space-x-8">
           <!-- Logo -->
           <div class="flex items-center space-x-2">
-            <div
-              class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <i class="bi bi-bag-fill text-white text-sm"></i>
             </div>
             <div class="text-xs fw-bold fst-italic gradient-text">Apsara Style</div>
@@ -124,13 +123,13 @@ if (session_status() === PHP_SESSION_NONE) {
           <!-- Desktop Navigation -->
           <nav class="hidden lg:flex space-x-8">
             <a href="#" data-list="orderCategory"
-              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Men</a>
+              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Fashion</a>
             <a href="#" data-list="orderCategory"
-              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Women</a>
+              class="nav-link text-gray-900 hover:text-purple-600 font-medium">SkinCare</a>
             <a href="#" data-list="orderCategory"
-              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Collections</a>
+              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Electronic</a>
             <a href="#" data-list="orderCategory"
-              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Sale</a>
+              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Shoes</a>
             <a href="#" data-list="orderCategory"
               class="nav-link text-gray-900 hover:text-purple-600 font-medium">Brands</a>
           </nav>
@@ -152,21 +151,17 @@ if (session_status() === PHP_SESSION_NONE) {
               onclick="toggleMobileSearch()">
               <i class="bi bi-search text-lg text-gray-700"></i>
             </button>
-            <!-- User Account
-            <button class="p-2 hover:bg-gray-100 rounded-full transition-colors group" onclick="openModal()">
-              <i class="bi bi-person text-lg text-gray-700 group-hover:text-purple-500 transition-colors"></i>
-            </button>-->
             <?php
             require_once('../models/connection.php');
             if (session_status() === PHP_SESSION_NONE) {
               session_start();
             }
-            $profileImage = $_SESSION['profileImage'] ?? 'profileMale.png';
-            $firstName = $_SESSION['firstName'] ?? 'Guest';
+            $profileImage = $_SESSION['profileImage'] ?? 'ImageNotAccount.png';
+            $firstName = $_SESSION['firstName'] ?? '';
             $lastName = $_SESSION['lastName'] ?? '';
             ?>
             <figure class="relative inline-block text-left">
-              <div class="flex items-center space-x-2  border-gray-300 cursor-pointer" onclick="openModal()">
+              <div class="flex items-center space-x-2  border-gray-300 cursor-pointer">
                 <!-- Profile Image -->
                 <div class="w-8 h-8 rounded-full overflow-hidden border border-gray-200 shadow-sm">
                   <img src="http://localhost/ETEC_FINAL/public/src/assets/<?= htmlspecialchars($profileImage) ?>"
@@ -190,6 +185,9 @@ if (session_status() === PHP_SESSION_NONE) {
               <span id="cartCount"
                 class="absolute -top-1 -right-1 bg-purple-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">2</span>
             </button>
+           <button type="button" class=" py-2 text-grey-500 text-sm font-medium rounded-md  transition-colors" onclick="openModal()">
+             Register
+           </button>
             <!-- Mobile Menu Button -->
             <button class="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors" onclick="toggleMobileMenu()">
               <i id="menuIcon" class="bi bi-list text-lg text-gray-700"></i>
@@ -210,7 +208,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
   </header>
   <!-- Mobile Menu Overlay -->
-  <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"
+  <div id="mobileMenuOverlay" class="fixed inset-0 bg-grey-400 bg-opacity-50 z-40 hidden lg:hidden"
     onclick="toggleMobileMenu()"></div>
   <!-- Mobile Menu -->
   <div id="mobileMenu"
@@ -379,7 +377,7 @@ if (session_status() === PHP_SESSION_NONE) {
               <!-- Profile image upload optional -->
               <div class="w-1/2">
                 <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Optional Image</label>
-                <input type="file" name="image" id="image"
+                <input type="file" name="profileImage" id="image"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
               </div>
 
