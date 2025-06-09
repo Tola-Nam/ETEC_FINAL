@@ -1,142 +1,359 @@
+<?php
+require_once('../models/connection.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <title>Zalando - Fashion Store</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <!-- Bootstrap & Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link rel="stylesheet" href="../style/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "brand-purple": "#6b46c1",
+                        "brand-dark": "#1f2937",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        /* Custom animations and styles */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
 
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader {
+            animation: spin 1s linear infinite;
+        }
+
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        #main-content {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        #main-content.loaded {
+            opacity: 1;
+        }
+
+        /* Enhanced horizontal scrolling for category rows */
+        .category-row {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 1rem;
+            padding-right: 1rem;
+            scroll-behavior: smooth;
+
+            /* Enable momentum scrolling on iOS */
+            -webkit-overflow-scrolling: touch;
+
+            /* Ensure proper scrolling on all devices */
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+
+        /* Custom scrollbar styling */
+        .category-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .category-row::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .category-row::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .category-row::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .product-card {
+            min-width: 250px;
+            max-width: 250px;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        /* Add some margin to the last card for better scrolling experience */
+        .product-card:last-child {
+            margin-right: 1rem;
+        }
+
+        /* Smooth scrolling for the entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<style>
-    .swiper {
-        width: 100%;
-        padding: 20px 0;
-    }
 
-    .swiper-slide {
-        display: flex;
-        justify-content: center;
-    }
-
-    .card {
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<body>
-    
-    <div class="container mt-4">
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-
-                <!-- Block 1 -->
-                <div class="swiper-slide">
-                    <div class="block">
-                        <h4>Category 1</h4>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Image 1">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 1</h5>
-                                        <p class="card-text">Description 1.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Image 2">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 2</h5>
-                                        <p class="card-text">Description 2.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Image 3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 3</h5>
-                                        <p class="card-text">Description 3.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Block 2 -->
-                <div class="swiper-slide">
-                    <div class="block">
-                        <h4>Category 2</h4>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Image 4">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 4</h5>
-                                        <p class="card-text">Description 4.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Image 5">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 5</h5>
-                                        <p class="card-text">Description 5.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <img src="https://gratisography.com/wp-content/uploads/2024/11/gratisography-augmented-reality-800x525.jpg"
-                                        class="card-img-top" alt="Image 6">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card 6</h5>
-                                        <p class="card-text">Description 6.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add more blocks as needed -->
-
-            </div>
-
-            <!-- Navigation Buttons -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-
-            <!-- Pagination (Optional) -->
-            <div class="swiper-pagination"></div>
-        </div>
+<body class="bg-white font-sans ">
+    <!-- Loading Screen -->
+    <div id="loading-screen"
+        class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center text-white z-50">
+        <div class="w-12 h-12 border-4 border-gray-600 border-t-emerald-500 rounded-full loader mb-4"></div>
+        <p class="text-lg">Loading, please wait...</p>
     </div>
 
+    <!-- Main Content -->
+    <div id="main-content" class="container mx-auto px-4 mt-4">
+        <!-- Navigation -->
+        <?php include('../include/header.php') ?>
+        <!-- Products Container (No Swiper) -->
+        <div class="p-6">
+            <?php
+            $connection = connection();
 
+            // Fetch all goods ordered by category
+            $getter = "SELECT * FROM goods";
+            $result = $connection->query($getter);
 
+            if ($result && $result->num_rows > 0) {
+                $currentCategory = '';
+                $categoryProducts = [];
 
-</body>
+                //! Group products by category
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $categoryProducts[$row['category']][] = $row;
+                }
+                //^ Display each category in a single row
+                foreach ($categoryProducts as $category => $products) {
+                    echo "<h4 class='text-xl fw-bold fst-italic text-gray-900 mb-6 mt-8'>" . htmlspecialchars($category) . "</h4>";
+                    echo "<div class='category-row'>";
+                    foreach ($products as $product) {
+                        // block fashion 
+                        if ($product['category'] === 'fashion') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=fashion"
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                <div class="w-full h-64 overflow-hidden">
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . htmlspecialchars($product['product_thumbnail']) . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . htmlspecialchars($product['product_title']) . '"
+                                        loading="lazy">
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                           class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                           class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                </div>
+                            </a>';
+                        }
+                        // block new fashion 
+                        if ($product['category'] === 'NewFashion') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=NewFashion" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">             
+                               <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . $product['product_title'] . '"
+                                        loading="lazy">
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
+                                    </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                </div>
+                            </a>';
+                        }
+                        // block skink care
+                        if ($product['category'] === 'SkinCare') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=SkinCare" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                                <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . $product['product_title'] . '"
+                                        loading="lazy">
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
+                                    </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                            class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                </div>
+                            </a>';
+                        }
+                        // block electronics
+                        if ($product['category'] === 'Electronics') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Electronics" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                               <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . $product['product_title'] . '"
+                                        loading="lazy">
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
+                                    </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span  class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                </div>
+                            </a>';
+                        }
+                        if ($product['category'] === 'Shoes') {
+                            echo '<a href="./product.php?code=' . urlencode($product['product_code']) . '&status=Shoes" 
+                                class="product-card bg-white rounded-lg shadow-md overflow-hidden card-hover cursor-pointer">
+                               <div class="w-full h-64 overflow-hidden relative rounded-lg shadow">
+                                    <!-- Product Image -->
+                                    <img src="http://localhost/ETEC_FINAL/servers/assets/images/' . $product['product_thumbnail'] . '"
+                                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        alt="' . $product['product_title'] . '"
+                                        loading="lazy">
+                                    <!-- Discount Badge -->
+                                    <span class="absolute top-2 left-2 bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded shadow">
+                                        ' . $product['discount'] . '% OFF
+                                    </span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center space-x-4">
+                                        <span  class="productDiscount bg-green-100 text-green-800 px-2 py-1 text-sm font-semibold rounded">$</span>
+                                        <span id="productPrice"
+                                                class="bg-yellow-100 text-yellow-800 line-through px-2 py-1 text-sm font-semibold rounded">$' . $product['product_price'] . '</span>
+                                        <span id="percentDiscount"
+                                            class="bg-red-100 text-red-800 px-2 py-1 text-sm font-semibold rounded hidden">' . $product['discount'] . '%OFF</span>
+                                    </div>
+                                 <h5 class="text-lg font-semibold text-gray-900 mb-2">' . htmlspecialchars($product['product_title']) . '</h5>
+                                </div>
+                            </a>';
+                        }
 
-<script src="../controllers/main.js"></script>
+                    }
+                    echo "</div>"; //! Close category-row
+                }
+            } else {
+                echo "<p class='text-gray-600'>No products found or query failed.</p>";
+            }
+            ?>
+        </div>
+    </div>
+<!-- function for search product -->
+    <script>
+        function search() {
+            let filter = document.getElementById('searchInput').value.toUpperCase();
+            let items = document.querySelectorAll('.product-card');
 
-</html>
+            items.forEach(item => {
+                let heading = item.querySelector('h5','h4');
+                let value = heading.innerHTML || heading.innerText || heading.textContent;
+
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+    <!-- for discount product -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(card => {
+                // Use getElementById or querySelector with # for IDs, not class selectors
+                const priceElement = card.querySelector('#productPrice');
+                const discountElement = card.querySelector('#percentDiscount');
+                const discountedPriceElement = card.querySelector('.productDiscount');
+
+                if (priceElement && discountElement && discountedPriceElement) {
+                    const priceText = priceElement.innerText.replace('$', '');
+                    const discountText = discountElement.innerText.replace('%OFF', '');
+
+                    const price = parseFloat(priceText);
+                    const percent = parseFloat(discountText);
+
+                    // Check if both values are valid numbers and percent is greater than 0
+                    if (!isNaN(price) && !isNaN(percent) && percent > 0) {
+                        const discounted = price - (price * percent) / 100;
+                        discountedPriceElement.innerText = `$${discounted.toFixed(2)}`;
+                        // discountElement.classList.remove('hidden');
+                    } else {
+                        // If no valid discount, hide the discount elements and show original price
+                        discountElement.classList.add('hidden');
+                        priceElement.classList.remove('line-through');
+                        discountedPriceElement.innerText = `$${price.toFixed(2)}`;
+                    }
+                }
+            });
+        });
+
+    </script>
+
+    <!-- Simplified JavaScript (No Swiper) -->
+    <script>
+        // Simple loading screen functionality
+        window.addEventListener('load', function () {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+
+            // Hide loading screen and show main content
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                mainContent.classList.add('loaded');
+            }, 1000);
+        });
+    </script>
+    <!-- <script src="../controllers/conIndex.js"></script> -->
+    <?php include('../include/footer.php') ?>
