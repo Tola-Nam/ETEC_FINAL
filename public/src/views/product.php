@@ -277,22 +277,22 @@
                 <!-- Quantity -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Quantity</h3>
-                   <div class="flex items-center space-x-3">
-                       <button onclick="changeQuantity(-1)"
-                           class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
-                           <span class="text-lg">−</span>
-                       </button>
-                       <span id="quantity" class="text-lg font-semibold w-8 text-center">1</span>
-                       <button onclick="changeQuantity(1)"
-                           class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
-                           <span class="text-lg">+</span>
-                       </button>
-                   </div>
+                    <div class="flex items-center space-x-3">
+                        <button onclick="changeQuantity(-1)"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
+                            <span class="text-lg">−</span>
+                        </button>
+                        <span id="quantity" class="text-lg font-semibold w-8 text-center">1</span>
+                        <button onclick="changeQuantity(1)"
+                            class="w-10 h-10 border border-gray-300 rounded-full flex items-center justify-center hover:border-gray-900">
+                            <span class="text-lg">+</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="space-y-4">
-                    <button onclick="addToCart(event)"
+                    <button onclick="addToCart(event)" ? onclick="CloseModalQrCode()"
                         class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg font-semibold transition-colors">
                         Add to Cart
                     </button>
@@ -676,54 +676,58 @@
                 <div class="flex gap-4 mb-6">
                     <!-- Product Image -->
                     <?php
-                     require_once('../models/connection.php');
-                     $connection = connection();
-                     $code = $_GET['code'] ?? '';
-                     $status = $_GET['status'] ?? '';
+                    require_once('../models/connection.php');
+                    $connection = connection();
+                    $code = $_GET['code'] ?? '';
+                    $status = $_GET['status'] ?? '';
 
-                     $getterProduct = "SELECT product_code,product_title,product_thumbnail FROM goods WHERE product_code = '$code' AND category ='$status'";
+                    $getterProduct = "SELECT product_code,product_title,product_thumbnail FROM goods WHERE product_code = '$code' AND category ='$status'";
 
-                     $QueryProduct = $connection->query($getterProduct);
-                     if($getProductInfo = mysqli_fetch_assoc($QueryProduct) ){
-                     ?>
-                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <div class="w-10 h-10 bg-black rounded overflow-hidden">
-                            <img src="/ETEC_FINAL/servers/assets/images/<?php echo $getProductInfo['product_thumbnail']  ?>" alt="Thumbnail" class="w-full h-full object-cover" />
+                    $QueryProduct = $connection->query($getterProduct);
+                    if ($getProductInfo = mysqli_fetch_assoc($QueryProduct)) {
+                        ?>
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-10 h-10 bg-black rounded overflow-hidden">
+                                <img src="/ETEC_FINAL/servers/assets/images/<?php echo $getProductInfo['product_thumbnail'] ?>"
+                                    alt="Thumbnail" class="w-full h-full object-cover" />
+                            </div>
                         </div>
-                    </div>
-                    <!-- Product Details -->
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start mb-2">
-                            <h2 id="displayTitle" class="text-lg font-medium text-gray-900 pr-2">
-                                <?php echo $getProductInfo['product_title'] ?>
-                            </h2>
-                            <button class="p-1 text-gray-400 hover:text-gray-600">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-                        <p id="displayCode" class="text-sm text-gray-600 mb-3">Code. <?php echo $code ?> - <span id="setColor">white</span></p>
-                        <?php
-                            }
-                         ?>
+                        <!-- Product Details -->
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <h2 id="displayTitle" class="text-lg font-medium text-gray-900 pr-2">
+                                    <?php echo $getProductInfo['product_title'] ?>
+                                </h2>
+                                <button class="p-1 text-gray-400 hover:text-gray-600">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <p id="displayCode" class="text-sm text-gray-600 mb-3">Code. <?php echo $code ?> - <span
+                                    id="setColor">white</span></p>
+                            <?php
+                    }
+                    ?>
                         <!-- Size and Quantity Selection -->
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                          <!-- Size Display -->
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Size</label>
-                            <div id="displaySize"
-                              class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800">38</div>
-                          </div>
+                            <!-- Size Display -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Size</label>
+                                <div id="displaySize"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800">
+                                    38</div>
+                            </div>
 
-                          <!-- Quantity Display -->
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-                            <div id="displayQuantity"
-                              class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800"> 1</div>
-                          </div>
+                            <!-- Quantity Display -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                                <div id="displayQuantity"
+                                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-gray-50 text-gray-800">
+                                    1</div>
+                            </div>
                         </div>
                         <!-- Stock Status -->
                         <div class="text-right mb-3">
@@ -769,10 +773,13 @@
                     </div>
                 </div>
                 <?php
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
                 $hasSession = isset($_SESSION['user_id']);
                 $showQrModal = $_SESSION['show_qr_modal'] ?? false;
 
-                // Clear the modal flag after showing once
                 unset($_SESSION['show_qr_modal']);
                 ?>
 
@@ -800,46 +807,48 @@
             <!-- Modal Content -->
             <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Scan QR to Checkout</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
+            <div class="grid grid-flow-col auto-cols-max gap-4 justify-center items-center">
                 <img src="../assets/Qr_dolla.jpg"
-                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />
-                alt="QR Code"
+                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" alt="QR Code" />
                 <img src="../assets/Qr_dolla.jpg"
-                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" />alt="QR Code"
+                    class="w-64 h-64 object-contain rounded-lg border border-gray-200 shadow" alt="QR Code" />
             </div>
         </div>
     </div>
+    <!-- JS (Script Block) -->
     <script>
+        // Pass PHP session values into JS
         const showQr = <?php echo json_encode($showQrModal); ?>;
+        const isLoggedIn = <?php echo json_encode($hasSession); ?>;
 
+        // Show QR modal automatically on page load (if session sets it)
         if (showQr) {
-            // Trigger modal
-            document.getElementById('ModalQrCode').classList.remove('hidden');
+            document.getElementById('ModalQCode').classList.remove('hidden');
         }
 
-        // Existing checkout button logic
-        const isLoggedIn = <?php echo json_encode($hasSession); ?>;
+        // Button click event
         document.getElementById("checkOut").addEventListener("click", function () {
             if (isLoggedIn) {
-                document.getElementById('ModalQrCode').classList.remove('hidden');
+                document.getElementById('ModalQCode').classList.remove('hidden');
             } else {
                 document.getElementById("modal-signUp").classList.remove("hidden");
-                document.getElementById("ModalCheckOut").classList.add("hidden");
             }
         });
 
-        function CloseModalQrCode() {
-            document.getElementById('ModalQrCode').classList.add('hidden');
+        // Close modal functions
+        function closeModalQrCode() {
+            document.getElementById('ModalQCode').classList.add('hidden');
         }
 
         function closeLoginModal() {
             document.getElementById('modal-signUp').classList.add('hidden');
         }
         function closeModalCheckOut() {
-            document.getElementById("ModalCheckOut").classList.add('hidden');
+            document.getElementById('ModalCheckOut').classList.add('hidden');
         }
     </script>
-// for getter product items into check out
+
+    // for getter product items into check out
     <script>
         // function for discount product
         const productPrice = parseFloat(
@@ -857,7 +866,7 @@
             document.getElementById("OriginalPrice").innerText = `$${productPrice}`;
             document.getElementById("DisPrice").innerText = `$${percentDiscount} %OFF`;
         }
-       function changeQuantity(amount) {
+        function changeQuantity(amount) {
             let quantityElem = document.getElementById("quantity");
             let quantity = parseInt(quantityElem.innerText);
 
@@ -872,59 +881,59 @@
         }
         // Initialize total on page load
         changeQuantity(0);
-// function for selection size
-      function selectSize(button, size) {
-          // Update selected size text
-          document.getElementById('selectedSize').textContent = `Selected: ${size}`;
-          document.getElementById('sizeProduct').textContent = `Model wears size ${size}`;
-          document.getElementById("displaySize").innerText = `${size}`;
+        // function for selection size
+        function selectSize(button, size) {
+            // Update selected size text
+            document.getElementById('selectedSize').textContent = `Selected: ${size}`;
+            document.getElementById('sizeProduct').textContent = `Model wears size ${size}`;
+            document.getElementById("displaySize").innerText = `${size}`;
 
-          // Get all buttons in the same grid
-          const container = button.closest('.grid');
-          const buttons = container.querySelectorAll('button');
+            // Get all buttons in the same grid
+            const container = button.closest('.grid');
+            const buttons = container.querySelectorAll('button');
 
-          buttons.forEach(btn => {
-              btn.classList.remove('bg-gray-900', 'text-white', 'border-gray-900');
-              btn.classList.add('border-gray-300', 'text-black'); // optional: restore text color
-          });
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-gray-900', 'text-white', 'border-gray-900');
+                btn.classList.add('border-gray-300', 'text-black'); // optional: restore text color
+            });
 
-          button.classList.add('bg-gray-900', 'text-white', 'border-gray-900');
-          button.classList.remove('border-gray-300', 'text-black');
-      }
+            button.classList.add('bg-gray-900', 'text-white', 'border-gray-900');
+            button.classList.remove('border-gray-300', 'text-black');
+        }
 
-//         function for select color
-       function selectColor(button, color) {
-           // Update the displayed selected color
-           document.getElementById('selectedColor').textContent = `Selected: ${capitalize(color)}`;
-           document.getElementById("setColor").textContent = `${color}`;
+        //         function for select color
+        function selectColor(button, color) {
+            // Update the displayed selected color
+            document.getElementById('selectedColor').textContent = `Selected: ${capitalize(color)}`;
+            document.getElementById("setColor").textContent = `${color}`;
 
-           // Update the visible selection (border styling)
-           const buttons = button.parentElement.querySelectorAll('button');
-           buttons.forEach(btn => {
-               btn.classList.remove('border-gray-900');
-               btn.classList.add('border-transparent');
-           });
+            // Update the visible selection (border styling)
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-gray-900');
+                btn.classList.add('border-transparent');
+            });
 
-           button.classList.remove('border-transparent');
-           button.classList.add('border-gray-900');
-       }
+            button.classList.remove('border-transparent');
+            button.classList.add('border-gray-900');
+        }
 
-       // Helper function to capitalize the first letter
-       function capitalize(str) {
-           return str.charAt(0).toUpperCase() + str.slice(1);
-       }
+        // Helper function to capitalize the first letter
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
         //    for check button hearts
         // Handle wishlist button
         const wishlistBtn = document.querySelector(
-          'button[class*="flex items-center gap-2"]'
+            'button[class*="flex items-center gap-2"]'
         );
         if (wishlistBtn) {
             wishlistBtn.addEventListener("click", function () {
-               this.innerHTML = this.innerHTML.replace(
-                 "Move to wishlist",
-                 "Added to wishlist ✓"
-               );
-               this.classList.add("text-green-600");
+                this.innerHTML = this.innerHTML.replace(
+                    "Move to wishlist",
+                    "Added to wishlist ✓"
+                );
+                this.classList.add("text-green-600");
             });
         }
 

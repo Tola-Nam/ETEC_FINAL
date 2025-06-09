@@ -122,16 +122,14 @@ if (session_status() === PHP_SESSION_NONE) {
           </div>
           <!-- Desktop Navigation -->
           <nav class="hidden lg:flex space-x-8">
-            <a href="#" data-list="orderCategory"
+            <a href="http://localhost/ETEC_FINAL/public/src/views/category.php?status=NewFashion" data-list="orderCategory"
               class="nav-link text-gray-900 hover:text-purple-600 font-medium">Fashion</a>
-            <a href="#" data-list="orderCategory"
+            <a href="http://localhost/ETEC_FINAL/public/src/views/category.php?status=SkinCare" data-list="orderCategory"
               class="nav-link text-gray-900 hover:text-purple-600 font-medium">SkinCare</a>
-            <a href="#" data-list="orderCategory"
+            <a href="http://localhost/ETEC_FINAL/public/src/views/category.php?status=Electronic" data-list="orderCategory"
               class="nav-link text-gray-900 hover:text-purple-600 font-medium">Electronic</a>
-            <a href="#" data-list="orderCategory"
+            <a href="http://localhost/ETEC_FINAL/public/src/views/category.php?status=Shoes" data-list="orderCategory"
               class="nav-link text-gray-900 hover:text-purple-600 font-medium">Shoes</a>
-            <a href="#" data-list="orderCategory"
-              class="nav-link text-gray-900 hover:text-purple-600 font-medium">Brands</a>
           </nav>
         </div>
         <!-- Search and Actions -->
@@ -249,6 +247,7 @@ if (session_status() === PHP_SESSION_NONE) {
       </nav>
     </div>
   </div>
+
   <!-- modal for sing up account user for contact our team work -->
   <div id="modal-signUp" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <!-- Modal Dialog -->

@@ -142,61 +142,60 @@
     <div class="no-print max-w-4xl mx-auto mb-4 bg-white p-6 rounded-xl shadow-lg">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <!-- Left: Print Options -->
-            <div class="flex flex-wrap items-center gap-4">
-                <h3 class="w-full font-semibold text-lg text-gray-800">Print Options</h3>
+<div class="w-full flex flex-col gap-4">
+    <!-- Title -->
+    <h3 class="font-semibold text-lg text-gray-800">Print Options</h3>
 
-                <div class="flex items-center space-x-2">
-                    <label for="paperSize" class="text-sm text-gray-700">Paper Size:</label>
-                    <select id="paperSize"
-                        class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none">
-                        <option value="a4">A4</option>
-                        <option value="letter">Letter</option>
-                        <option value="legal">Legal</option>
-                    </select>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <label for="scaleSize" class="text-sm text-gray-700">Scale:</label>
-                    <select id="scaleSize"
-                        class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none">
-                        <option value="small">80%</option>
-                        <option value="medium" selected>100%</option>
-                        <option value="large">120%</option>
-                    </select>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <label for="editMode" class="text-sm text-gray-700">Edit Mode:</label>
-                    <input type="checkbox" id="editMode"
-                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                </div>
+        <!-- Options Container -->
+        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4">
+            <!-- Paper Size -->
+            <div class="flex items-center space-x-2">
+                <label for="paperSize" class="text-sm text-gray-700">Paper Size:</label>
+                <select id="paperSize"
+                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none">
+                    <option value="a4">A4</option>
+                    <option value="letter">Letter</option>
+                    <option value="legal">Legal</option>
+                </select>
             </div>
 
-            <!-- Right: Action Buttons -->
-            <div class="flex flex-wrap justify-start md:justify-end gap-2">
-                <button
-                    class="flex items-center px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200 space-x-2"
-                    aria-label="Print Invoice">
-                    <i class="bi bi-printer"></i>
-                    <span class="text-sm font-medium">Print Invoice</span>
-                </button>
-
-                <button id="pdfButton"
-                    class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200 space-x-2"
-                    aria-label="Download PDF">
-                    <div id="pdfSpinner" class="hidden loading-spinner"></div>
-                    <svg id="pdfIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span id="pdfText" class="text-sm font-medium">Download PDF</span>
-                </button>
+            <!-- Scale -->
+            <div class="flex items-center space-x-2">
+                <label for="scaleSize" class="text-sm text-gray-700">Scale:</label>
+                <select id="scaleSize"
+                    class="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none">
+                    <option value="small">80%</option>
+                    <option value="medium" selected>100%</option>
+                    <option value="large">120%</option>
+                </select>
             </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row sm:justify-start md:justify-end gap-2">
+            <button id="btn-print" type="submit"
+                class="flex items-center justify-center px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-200 space-x-2">
+                <i class="bi bi-printer"></i>
+                <span class="text-sm font-medium">Print Invoice</span>
+            </button>
+
+            <button id="btn-pdf" type="submit"
+                class="flex items-center justify-center px-4 py-2 border border-green-500 text-green-600 rounded-lg hover:bg-green-50 transition-colors duration-200 space-x-2">
+                <i class="bi bi-file-earmark-arrow-down"></i>
+                <span class="text-sm font-medium">Download PDF</span>
+            </button>
+
+            <a href="http://localhost/ETEC_FINAL/servers/admin/invoice.php"
+                class="flex items-center justify-center px-4 py-2 border border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition-colors duration-200 space-x-2">
+                <i class="bi bi-caret-right"></i>
+                <span class="text-sm font-medium">Go to Download</span>
+            </a>
         </div>
     </div>
 
 
+        </div>
+    </div>
 
     <div id="invoiceContainer"
         class="invoice-container max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden size-medium">
@@ -307,7 +306,27 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100" id="itemsBody">
-                        <!-- Items will be populated by JavaScript -->
+                        <tr>
+                            <td class="py-4 px-2 text-gray-700">1</td>
+                            <td class="py-4 px-2 text-gray-900 font-medium">Web Development Service</td>
+                            <td class="py-4 px-2 text-center text-gray-700">1</td>
+                            <td class="py-4 px-2 text-right text-gray-700">$1,500.00</td>
+                            <td class="py-4 px-2 text-right text-gray-900 font-semibold">$1,500.00</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-2 text-gray-700">2</td>
+                            <td class="py-4 px-2 text-gray-900 font-medium">SEO Optimization</td>
+                            <td class="py-4 px-2 text-center text-gray-700">1</td>
+                            <td class="py-4 px-2 text-right text-gray-700">$500.00</td>
+                            <td class="py-4 px-2 text-right text-gray-900 font-semibold">$500.00</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-2 text-gray-700">3</td>
+                            <td class="py-4 px-2 text-gray-900 font-medium">Content Management</td>
+                            <td class="py-4 px-2 text-center text-gray-700">2</td>
+                            <td class="py-4 px-2 text-right text-gray-700">$250.00</td>
+                            <td class="py-4 px-2 text-right text-gray-900 font-semibold">$500.00</td>
+                        </tr>
                     </tbody>
                 </table>
                 <button id="addItemBtn"
@@ -321,7 +340,18 @@
             <div class="flex justify-end mt-8 print-break">
                 <div class="w-full max-w-sm">
                     <div class="space-y-3" id="summarySection">
-                        <!-- Summary will be populated by JavaScript -->
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-gray-600">Subtotal:</span>
+                            <span class="font-semibold text-gray-900">$2,500.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-gray-600">Tax (10%):</span>
+                            <span class="font-semibold text-gray-900">$250.00</span>
+                        </div>
+                        <div class="flex justify-between items-center py-3 border-t-2 border-gray-200">
+                            <span class="text-lg font-bold text-gray-900">Total:</span>
+                            <span class="text-lg font-bold text-gray-900">$2,750.00</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -329,7 +359,8 @@
             <!-- Notes -->
             <div class="mt-8 pt-6 border-t border-gray-200">
                 <h3 class="text-sm font-semibold text-gray-900 mb-3">Notes:</h3>
-                <p class="text-sm text-gray-600 leading-relaxed editable" contenteditable="false" data-field="notes">
+                <p class="text-sm text-gray-600 leading-relaxed editable text-red-400" contenteditable="false"
+                    data-field="notes">
                     All accounts are to be paid within 7 days from receipt of invoice. To be paid by cheque or credit
                     card or direct payment online.
                     If account is not paid within 7 days the credits details supplied as confirmation of work undertaken
@@ -338,6 +369,65 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const printBtn = document.getElementById('btn-print');
+        const pdfBtn = document.getElementById('btn-pdf');
+        const redirectURL = "http://localhost/ETEC_FINAL/servers/admin/invoice.php";
+
+        // Print button triggers print then redirects
+        printBtn.addEventListener('click', function () {
+            window.print();
+
+            // Wait for print dialog to close before redirecting
+            window.onafterprint = function () {
+                window.location.href = redirectURL;
+            };
+        });
+
+        // PDF download functionality
+        pdfBtn.addEventListener('click', async function () {
+            const element = document.getElementById('invoiceContainer');
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff'
+            });
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = 210;
+            const pageHeight = 295;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            // Save and then redirect
+            pdf.save('invoice.pdf');
+
+            // Give time for save to trigger before redirecting
+            setTimeout(() => {
+                window.location.href = 'http://localhost/ETEC_FINAL/servers/include/header.php?page=invoice';
+            }, 1000); // 1 second delay to ensure download starts
+        });
+    });
+</script>
+
+
 </body>
 
 </html>

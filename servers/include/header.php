@@ -1,7 +1,6 @@
 <?php
 session_start();
-// session_destroy();
-// require_once('//public/src/models/getThumbnail.php');
+
 require_once('../admin/connections/admin_register.php');
 require_once('../admin/connections/product_information.php');
 
@@ -10,24 +9,23 @@ if (empty($_SESSION['Admin_id'])) {
     exit();
 }
 
-//~ Handle AJAX route request
+// AJAX Request
 if (isset($_GET['ajax'])) {
     $page = $_GET['page'] ?? 'dashboard';
-    $whitelist = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport', 'updateProduct'];
-    if (in_array($page, $whitelist)) {
-        //? Start output buffering to capture all output including any JavaScript
+    $allowed = ['dashboard', 'invoice', 'analytics', 'form', 'home', 'projects', 'about', 'contact', 'invoiceReport'];
+
+    if (in_array($page, $allowed)) {
         ob_start();
         include(__DIR__ . "/../admin/{$page}.php");
-        $content = ob_get_clean();
-        echo $content;
+        echo ob_get_clean();
     } else {
         http_response_code(404);
         echo "<p class='text-red-600'>404 - Page Not Found</p>";
     }
-    exit(); //! stop full HTML from rendering on AJAX
+    exit(); // Prevent full HTML rendering
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -178,9 +176,6 @@ if (isset($_GET['ajax'])) {
         <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="form">
             <i class="bi bi-ui-checks me-2"></i><span class="sidebar-text">Form</span>
         </a>
-        <a href="#" class="sidebar-link hover:bg-gray-700 flex items-center p-3" data-page="updateProduct">
-            <i class="bi bi-box-arrow-left me-2"></i><span class="sidebar-text">LogOut</span>
-        </a>
     </div>
 
     <!-- Mobile Toggle Button - Fixed positioning and visibility -->
@@ -190,7 +185,7 @@ if (isset($_GET['ajax'])) {
     </button>
     <!-- Main Content -->
     <div id="main-content" class="p-4 transition-all duration-300">
-        <navigate class="sticky top-0 z-50 navbar-blur border-b border-gray-200/50">
+        <aside class="sticky top-0 z-50 navbar-blur border-b border-gray-200/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <!-- Logo and Desktop Navigation -->
@@ -295,7 +290,7 @@ if (isset($_GET['ajax'])) {
                     </div>
                 </div>
             </div>
-        </navigate>
+        </aside>
         <div id="content" class="p-4">Loading...</div>
     </div>
 
